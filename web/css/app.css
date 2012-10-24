@@ -151,12 +151,12 @@ section.main {
 	border: 2px solid #121212;
 }
 .more {
-	padding-top: 10px;
+	padding-top: 15px;
 	margin-bottom: 120px;
 }
 /*FOOTER */
 footer {
-	margin-bottom: 15px;
+	padding-bottom: 20px;
 }
 footer p {
     border-left: 1px dotted #CCCCCC;    
@@ -206,9 +206,9 @@ footer a:hover {
 	font-style: italic;
     font-size:13px;
     line-height: 30px;
-    padding: 5px 10px;
+    padding: 3px 10px;
     border: none;
-    
+    font-family: Georgia, Times, serif;
 }
 .button:hover{
 	text-decoration: none;
@@ -223,7 +223,7 @@ footer a:hover {
 
 article.row {
 	border-bottom: 1px dotted #3C3C3C;
-	padding: 25px 0;
+	padding: 28px 0 17px 0;
 }
 
 #archives {

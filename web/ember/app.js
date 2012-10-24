@@ -105,7 +105,7 @@
 			},
 			//function that returns only first six posts for index page
 			firstPosts: function() {
-				return this.toArray().splice(0,numIndexPosts);			
+				return this.toArray().splice(0,numIndexPosts);	
 			}.property('@each')	
 	  	}),	  	
 	  	PostsView: Ember.View.extend({
@@ -191,7 +191,13 @@
 	      					var post = router.get('postsController.content').objectAt(context.post_id);	    					
 	      					router.get('postController').set('content', post);
 	      					router.get('applicationController').connectOutlet('post');
-	      				},	      						      				
+	      				},	
+	      				serialize: function(router, post) {	      					
+	      					return { "post_id": post.post_id }
+	      				},
+	      				deserialize: function(router, params) {
+	      					return params;	      					
+	      				}      						      				
 	      		}),	      			
 	      		doPost: function(router, context) { 	 				
 	      				router.transitionTo('post', {post_id: context.target.id});
