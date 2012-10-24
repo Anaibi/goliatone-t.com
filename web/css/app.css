@@ -1,0 +1,446 @@
+/* Artfully masterminded by ZURB  */
+
+/* -------------------------------------------------- 
+   Table of Contents
+-----------------------------------------------------
+:: Shared Styles
+:: Page INDEX
+:: Page PORTFOLIO
+*/
+
+/* -----------------------------------------
+   Shared Styles
+----------------------------------------- */
+/* DEFAULT */
+/* make new structural elements force a line break */
+section, article, header, footer, nav, aside, hgroup {
+ display: block;
+} 
+.row {
+	min-width: 720px;
+}
+
+body { 
+	background: #EFEFEF; 
+	line-height: 30px; 
+	color: #000; 
+	padding-top: 15px;
+}
+
+body, p, h1, h2, h3, h4, a, span {
+	font-family: Georgia, Times, serif; 
+}
+
+h1, h2, h3, h4 {
+	font-weight: 600;
+	display: inline;
+}
+
+h1 {
+	font-size: 52px;
+    line-height: 52px;
+}
+
+h2 {
+	font-size: 45px;
+	line-height: 43px;
+}
+
+h3 {
+	font-size: 30px;
+	line-height: 30px;
+}
+
+a {
+	color: #3C3C3C;
+	cursor: pointer;
+}
+
+a:hover {
+	color: #18bded;
+}
+
+.green{
+	color:#9bf239;
+}
+.fucsia{
+	color:#FE3376;
+}
+.soft-gray{
+	color:#b6b6b6;
+}
+.soft-blue{
+	color:#84BCDE;
+}
+
+/* MAIN NAVIGATION BAR */
+div[role="banner"] { 
+	height: 170px;
+/*	border-bottom: 1px dotted #8d8d8d;*/
+}
+
+#main-menu {
+	margin: 30px 0;
+}
+
+#main-menu ul {
+	background: none repeat scroll 0 0 #efefef;
+}
+
+#main-menu .nav-bar > li.active {
+	background: none repeat scroll 0 0 #efefef;	
+}
+
+#main-menu .nav-bar > li {
+	border-style: none;	
+	margin-left: 20px;
+}
+
+#main-menu .nav-bar > li > a {
+	color: #666;
+	font-size: 22px;
+}
+#main-menu .nav-bar > li.active > a {
+	border-top: 1px solid #111111;
+	color: #3377ff;
+}
+#main-menu .nav-bar > li > a:first-child {
+	padding: 0 8px;
+}
+
+#main-menu ul li:hover > a {
+    color:#3377FF;
+    background-color: #EFEFEF;
+}
+
+/*header tag line*/
+.tagline {
+    border-bottom: 1px dotted #8d8d8d;
+    border-top: 1px dotted #8d8d8d;
+    margin: 0 auto 55px !important;
+    padding: 30px 0;
+}
+.tagline h1 {
+	float: left;
+    margin: 0;
+    margin-right:14px;
+    text-shadow: 0 0 2px #999999;
+    text-shadow: 0px 2px 3px #666;
+    text-rendering: optimizelegibility;
+    width: 100%;
+    padding-left: 5px;
+}
+.tagline span {
+    border-left: 1px dotted #CCCCCC;
+    color: #AAAAAA;
+    float: left;
+    font-size: 13px;
+    font-weight:bold;
+    line-height: 11px;
+    margin: 25px 0 0 14px;
+    margin: 25px 0 0 0;
+    padding-left: 10px;
+}
+
+/* CONTENTS */
+section.main {
+	padding-bottom: 200px;
+}
+
+.content img.preview, .content img.article-preview {
+	border: 2px solid #121212;
+}
+.more {
+	padding-top: 10px;
+	margin-bottom: 120px;
+}
+/*FOOTER */
+footer {
+	margin-bottom: 15px;
+}
+footer p {
+    border-left: 1px dotted #CCCCCC;    
+    color: #AAAAAA;
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 11px;
+    margin-bottom: 0;
+}
+footer p.first{
+	border:none;
+}
+
+footer a:hover {
+	text-decoration: underline;
+}
+/* -----------------------------------------
+   Page INDEX
+----------------------------------------- */
+
+.post:last-child {
+	margin-bottom: 110px;
+}
+
+.date {
+  	font-style: italic;
+  	line-height: 43px;
+  	font-size: 12px;
+  	margin-bottom: 0;
+}
+
+#articles .date {
+	font-size: 15px;
+}
+
+#articles .content {
+	margin-top: 15px;
+	margin-bottom: 20px;
+}
+
+#articles .content img.preview {
+	border: 2px solid #121212;
+	margin-bottom: 10px;
+}
+
+.button {
+	font-style: italic;
+    font-size:13px;
+    line-height: 30px;
+    padding: 5px 10px;
+    border: none;
+    
+}
+.button:hover{
+	text-decoration: none;
+	color:#9BF230;
+	background-color:#9bf239;
+	color:#111;
+}
+
+/* -----------------------------------------
+   Page INDEX AND ARCHIVES
+----------------------------------------- */
+
+article.row {
+	border-bottom: 1px dotted #3C3C3C;
+	padding: 25px 0;
+}
+
+#archives {
+	border-top: 1px dotted #3C3C3C;
+}
+
+#archives .date {
+	line-height: 30px;
+}
+
+#archives h3 {
+	margin-left: -20px;
+}
+
+#archives h3 a:hover {
+	background-color: #3c3c3c;
+	opacity: 1;
+	padding: 3px;
+}
+
+#archives > div:first-child {
+	margin-bottom: 20px;
+}
+
+/* -----------------------------------------
+   Page PORTFOLIO
+----------------------------------------- */
+.project {
+	margin-bottom: 30px;
+}
+
+.project img{
+	border: 1px solid #ccc;
+}
+
+/* -----------------------------------------
+   Page ABOUT
+----------------------------------------- */
+p.about-intro {	
+	color:#fff;
+	font-size: 33px;
+	line-height: 44px;
+	background-color: #232323;
+	padding:5px;
+	padding: 5px 5px 5px 30px;
+	margin-bottom: 60px;
+    margin-top: 10px;
+	/*text-align: center;*/
+}
+
+#about h3 {
+	font-size: 23.4px;
+	display: block;
+}
+
+#about .box {
+	max-width: 335px;
+	float: right;
+}
+
+/* -----------------------------------------
+   Page RESUME
+----------------------------------------- */
+#resume{
+    margin: 40px auto;
+    width: 700px;
+}
+
+#resume a {
+	text-decoration: underline;
+}
+
+#resume a:hover {
+	text-decoration: underline;
+}
+
+#resume h1, h2, h3, h4, h5 {
+    margin: 0 0 15px;
+    padding: 0;
+    font-weight: 700;
+}
+
+#resume h1 {
+    font-size: 80px;
+    letter-spacing: -2.5px;
+    line-height: 80px;
+    margin-bottom: 20px;
+    text-shadow: 0 0 2px #999999;
+    width:100%;
+}
+
+#resume h2 {
+    color: #999999;
+    font-weight: normal;
+    font-size: 29px;
+    letter-spacing: -1px;
+    line-height: 29px;
+    text-shadow: 1px 1px 2px #DDDDDD;
+    word-spacing: -1px;
+}
+
+#resume h3 {
+    font-size: 20px;
+    line-height: 17px;
+    padding-bottom: 6px;
+    color: #323232;
+}
+
+#resume h4{
+	font-size: 18px;
+	color: #323232;
+	width:100%;
+	margin:0;
+}
+
+#resume hr{
+	border-bottom: 1px dotted /*#E9E9E9*/;
+	color: #FAFAFA; 
+	background-color: #FAFAFA; 
+	border-style: none none dotted; 
+	margin-top: 10px;
+	margin-bottom: 0;
+}
+
+#resume .resumeItem {
+	padding-top: 35px;
+}
+
+#resume p.date {
+	font-style: italic;
+    line-height: 23px;
+    font-size: 20px;
+}
+
+#resume .description {
+	padding-top: 20px;
+}
+
+#resume ul, ol {
+	list-style-position: outside;
+	padding-left: 38px;
+}
+
+#resume section {
+	margin-bottom: 33px;
+}
+
+/* -----------------------------------------
+   Page ARCHIVES
+----------------------------------------- */
+
+#pnWrapper.row {
+	margin-bottom: 100px;
+}
+
+/** PAJINATE **/
+.page_navigation {
+	margin-top: 35px;
+}
+.page_navigation a {
+	padding: 5px;
+	margin-right: 3px;
+	color: white;
+	background-color: #111;
+}
+
+a.no_more {
+	background-color: #999;
+}
+a.active_page {
+	background-color: #9BF239;
+	color: #111;
+}
+
+/* -----------------------------------------
+   Page EXPANDED POSTS
+----------------------------------------- */
+
+/*Post navigation*/
+.post-navigation {
+	position: relative;
+	width: 720px;
+}
+
+.post-navigation a.next,
+.post-navigation a.prev{
+	display: block;
+    height: 60px;
+    position: absolute;
+    text-indent: -5000px;
+    width: 20px;
+}
+.post-navigation a.next  {
+	background: url(../images/buttons/next-button-sprite.png) no-repeat scroll 0 0 transparent;
+	right:-35px;
+	top: -4px;
+} 
+.post-navigation a.next:hover  {
+	background: url(../images/buttons/next-button-sprite.png) no-repeat scroll 0 -60px transparent;
+}
+
+.post-navigation a.prev  {
+	background: url(../images/buttons/prev-button-sprite.png) no-repeat scroll 0 0 transparent;
+	left: -35px;
+    top: -4px;
+} 
+.post-navigation a.prev:hover  {
+	background: url(../images/buttons/prev-button-sprite.png) no-repeat scroll 0 -60px transparent;
+}
+.post-navigation a.disabled-link {
+	display: none;
+}
+
+/* post */
+#postExpanded {
+	min-height: 500px;
+}
+#postExpanded article {
+	padding-bottom: 80px;
+}

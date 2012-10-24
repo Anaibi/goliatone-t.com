@@ -1,0 +1,148 @@
+[
+	{
+		"id": 0,
+		"isFirst": true,
+		"title": "Project: Open Luxury Days",
+		"date": "March 1st 2012",
+		"summary": "a summary",
+		"html": [
+			"After a short but intense development cycle, here it is: ",
+			{
+				"isLink": "true",
+				"href": "http://www.openluxurydays.com/",
+				"text": "www.openluxurydays.com"
+			},
+			"For this project I used Kohana libraries I've released as open source on ",
+			{
+				"isLink": "true",
+				"href": "",
+				"text": "github"
+			},
+			". Every project is a good chance to keep them sharp and find/squish bugs.",
+			"More soon..."			
+		],
+		"img": {
+				"src": "images/posts/openluxurydays-preview.png",
+				"alt": "Project: Open Luxury Days"
+		}
+	},
+	{
+		"id": 1,
+		"title": "CSS: Gradient borders",
+		"date": "February 8th 2012",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 2,
+		"title":"Kohana: php CLI",
+		"date": "December 3rd 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 3,
+		"title": "AS3: Keep your UI's DRY",
+		"date": "November 23rd 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 4,
+		"title": "Apache not booting on windows",
+		"date": "November 17th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 5,
+		"title": "IE: Page renders, then 404",
+		"date": "November 15th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 6,
+		"title": "Toto: URL Rewriting",
+		"date": "November 14th 2011", 
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 7,
+		"title": "CSS: Decimal values in Chrome",
+		"date": "November 3rd 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 8,
+		"title":"Installing Toto in Heroku",
+		"date": "October 28th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 9,
+		"title":"Hello Toto",
+		"date": "October 27th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 10,
+		"title":"Kohana PHP Error",
+		"date": "September 24th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 11,
+		"title":"Kohana Config, lesson learned",
+		"date": "September 24th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 12,
+		"title":"Flex AS3 AMFPHP encoding issues",
+		"date": "August 10th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 13,
+		"title":"Load JavaScript libraries from Flash",
+		"date": "August 9th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 14,
+		"title":"AS3: StringTemplate class",
+		"date": "August 6th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 15,
+		"title":"Mxmcl Error",
+		"date": "July 23rd 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 16,
+		"title":"MySQL SSH tunnel with putty",
+		"date": "June 3rd 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	},
+	{
+		"id": 17,
+		"title":"Ubuntu SFTP jails setup review",
+		"date": "May 24th 2011",
+		"summary": "a summary",
+		"html": ["a text"]	
+	}
+]
