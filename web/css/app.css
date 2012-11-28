@@ -398,6 +398,10 @@ a.active_page {
 	color: #111;
 }
 
+.page_navigation .page_link {
+	display: inline;
+}
+
 /* -----------------------------------------
    Page EXPANDED POSTS
 ----------------------------------------- */

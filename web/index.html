@@ -21,6 +21,7 @@
 	<!--	<script src="ember/libs/ember-1.0.pre.min.js"></script> -->
 		<script src="http://cloud.github.com/downloads/emberjs/ember.js/ember-latest.js"></script>		
 		<script src="ember/libs/ember-data.js"></script>
+		<script src="ember/libs/pagination_support.js"></script>
 		<script src="ember/app.js"></script>
 		
 		
@@ -55,7 +56,7 @@
 						<li {{bindAttr class="isPortfolio:active"}}><a {{action "doPortfolio"}}>Portfolio</a></li>
 						<li {{bindAttr class="isAbout:active"}}><a {{action "doAbout"}}>About</a></li>
 						<li {{bindAttr class="isResume:active"}}><a {{action "doResume"}}>Resume</a></li>
-						<li {{bindAttr class="isPosts:active"}}><a {{action "doPosts"}}>Archive</a></li>
+						<li {{bindAttr class="isArchive:active"}}><a {{action "doArchive"}}>Archive</a></li>
 					</ul>
 					</nav>
 			</div>	  	      
@@ -94,7 +95,7 @@
 								<a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="button radius right">+ Read more</a>
 							</div>													
 			           	</article> 	                            
-		          	{{else}} {{post.isFirst}} 
+		          	{{else}}
 			       		<article class="row">                       
 			             	<div class="three columns"><p class="date">{{post.date}}</p></div>
 			             	<div class="nine columns posttitle">
@@ -424,55 +425,72 @@
 		</section><!-- end resume-->
 	    </script>
 	
-	    <script type="text/x-handlebars" data-template-name="posts">
-	    	<header>
+	    <script type="text/x-handlebars" data-template-name="archive">
+		    <header>
 				<div class="row tagline">
 					<h1>Archives</h1>
 					<span>A window to the past.</span>
 				</div>
 			</header>
-	    	{{#each post in content}}
-		    	<article class="row">                       
-		        	<div class="three columns"><p class="date">{{post.date}}</p></div>
-		            <div class="nine columns posttitle">
-		            	<h3><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}}>{{post.title}}</a></h3>
-		         	</div>
-		      	</article>
-	   		{{/each}}		    
-	    </script>
+			<section class="main">
+			    {{#each post in postsController}}
+				    <article class="row">                       
+				        <div class="three columns"><p class="date">{{post.date}}</p></div>
+				        <div class="nine columns posttitle">
+				          	<h3><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}}>{{post.title}}</a></h3>
+				        </div>
+				    </article>
+			   	{{/each}} 
+		   		
+		  		{{#if postsController.hasPaginationSupport}}			   		
+					<div class="row page_navigation">
+						<a class="back no_more" {{action "firstPage" target="postsController"}}>First</a>
+						<a class="back no_more" {{action "previousPage" target="postsController"}}>Prev</a>
+						<span class="ellipse less" style="display: none;" {{bindAttr data="postsController.page"}}></span>
+						{{#each page in postsController.totalPagesArray}} 					
+					  		<a {{action "setPage" target="postsController"}} {{bindAttr id="page.id"}} class="page_link">{{page.content}}</a>
+					 	{{/each}}
+					 	<span class="ellipse more" style="display: none;"></span>
+					 	<a class="forward no_more" {{action "nextPage" target="postsController"}}>Next</a>
+					   	<a class="forward no_more" {{action "lastPage" target="postsController"}}>Last</a>
+					</div>	
+				{{/if}} 	   		
+		  	</section>  
+		</script>
+	    
 	    
 	    <script type="text/x-handlebars" data-template-name="post">
-	    <section class="main">
-	   		<header>
-				<div class="row tagline">
-					<h1>{{title}}</h1>
-					<span>{{date}}</span>
-					<div class="post-navigation">
-						<a href="#"  {{action "prevPost"}} {{bindAttr id="id"}} class="prev post-navigation">Previous</a>
-						{{#if isFirst}}
-							<a href="#" {{action "nextPost"}} {{bindAttr id="id"}} class="next post-navigation disabled-link">Next</a>
-						{{else}}
-							<a href="#" {{action "nextPost"}} {{bindAttr id="id"}} class="next post-navigation">Next</a>
-						{{/if}}
+		    <section class="main">
+		   		<header>
+					<div class="row tagline">
+						<h1>{{title}}</h1>
+						<span>{{date}}</span>
+						<div class="post-navigation">
+							<a href="#"  {{action "prevPost"}} {{bindAttr id="id"}} class="prev post-navigation">Previous</a>
+							{{#if isFirst}}
+								<a href="#" {{action "nextPost"}} {{bindAttr id="id"}} class="next post-navigation disabled-link">Next</a>
+							{{else}}
+								<a href="#" {{action "nextPost"}} {{bindAttr id="id"}} class="next post-navigation">Next</a>
+							{{/if}}
+						</div>
 					</div>
-				</div>
-			</header>
-			<section class="row">
-				{{#if img}}
-					<div id="article-thumb">
-						<img {{bindAttr src="img.src" alt="img.alt"}}/>	
+				</header>
+				<section class="row">
+					{{#if img}}
+						<div id="article-thumb">
+							<img {{bindAttr src="img.src" alt="img.alt"}}/>	
+						</div>
+					{{/if}}
+					<div id"article-body">
+						<p>							
+							{{html}}
+						</p>
 					</div>
-				{{/if}}
-				<div id"article-body">
-					<p>							
-						{{html}}
-					</p>
-				</div>
-			</section>	
-			<div class="more row">
-		       		<a {{action "doHome"}} class="button radius left">Back to Kansas</a>
-		    </div>	
-		</section>
+				</section>	
+				<div class="more row">
+			       		<a {{action "doHome"}} class="button radius left">Back to Kansas</a>
+			    </div>	
+			</section>
     	</script>	      		
 	</body>
 </html>	    
