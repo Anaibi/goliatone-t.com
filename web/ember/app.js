@@ -22,6 +22,26 @@
 	  	}).property('App.router.currentState');
 	};
 	
+	
+	// format the date passed by post data
+	function getDate(string) { 
+	  	var array = string.split(" "); 
+	  	array [1] = parseInt(array[1]); 
+	  	string = array.join(" ");
+	  	var date = new Date(string);
+	  	var result = new Object;
+	  	result.year = date.getFullYear(); 
+	  	result.month = date.getMonth() + 1; 
+	  	result.day = date.getDate(); 
+	  	if (result.month < 10) {
+	  		result.month = "0" + result.month;
+	  	}
+	  	if (result.day < 10) {
+	  		result.day = "0" + result.day;
+	  	}
+	  	return result;	  	
+	};
+	
 	// Create the application
 	window.App = Ember.Application.create({ 
 		
@@ -113,26 +133,23 @@
 					self.didRequestRange(this.get('rangeStop'),this.get('rangeStop'));
 				} else {
 					self.set('content', App.Posts);
-				};
+				}
 				
-				console.log('before call');
 				self.updatePageLinks();			
-			},	
+			},																																		
+				
+			//function that returns only first six posts for index page
+			firstPosts: function() {
+				return App.Posts.toArray().splice(0, numIndexPosts);	
+			}.property('@each'),						
 			
-															
-												
-			//for first pagination give range
-			//TODO move proper pagination block
+			//pagination TODO move proper pagination block
+			//sets content for each page
 			didRequestRange: function(rangeStart, rangeStop) { 
     			var content = this.get('fullContent').slice(this.get('rangeStart'), this.get('rangeStop'));
     			this.replace(0, this.get('length'), content);  
     			this.updatePageLinks();	
   			},
-				
-			//function that returns only first six posts for index page
-			firstPosts: function() {
-				return App.Posts.toArray().splice(0, numIndexPosts);	
-			}.property('@each'),	
 			
 			//returns totalPages as an ember array so as to iterate over it
 			totalPagesArray: function() {
@@ -145,13 +162,14 @@
 				return array;
 			}.property('@each'),
 			
-			//pagination
+			//calls content for page
 			setPage: function(context) { 			 
 				var rangeStart = (context.target.text-1) * this.get('rangeWindowSize');
 				this.set('rangeStart', rangeStart); 
 				this.didRequestRange(this.get('rangeStart'),this.get('rangeStop'));														
 			},
 			
+			//page navigation actions
 			firstPage: function(context) {
 				this.set('rangeStart', 0); 
 				this.didRequestRange(0, this.get('rangeStop'));
@@ -165,7 +183,7 @@
 			
 			updatePageLinks: function() {
 				var page = this.get('page');
-				var total = this.get('totalPages'); console.log(total); 			
+				var total = this.get('totalPages'); 			
 				setTimeout(function() { 					
 					//active page link
 					$('.page_navigation #page'+page).addClass('active_page');
@@ -263,17 +281,20 @@
 	      		}),
 	      		//post page manager
 	      		//TODO modify to output url .com/YY/MM/DD/post_title
-	      		post: Ember.Route.extend({
-	      				route: '/:post_id',
-	      				connectOutlets: function(router, context) {  
-	      					var post = router.get('postsController.content').objectAt(context.post_id);	    					
+	      		post: Ember.Route.extend({ 
+	      				route: '/:post_id/:year/:month/:day/:title',
+	      				connectOutlets: function(router, context) {  	   	      					
+	      					var post = router.get('postsController.fullContent').objectAt(context.post_id);		      					
 	      					router.get('postController').set('content', post);
 	      					router.get('applicationController').connectOutlet('post');
 	      				},	
-	      				serialize: function(router, post) {	      					
-	      					return { "post_id": post.post_id }
+	      				serialize: function(router, post_id) {	 
+	      					var post = router.get('postsController.fullContent').objectAt(post_id.post_id);	
+	      					var date = getDate(post._data.attributes.date);
+							var title = post._data.attributes.title;  					      					    					
+	      					return { "post_id": post.id, "year": date.year, "month": date.month, "day": date.day, "title": title}
 	      				},
-	      				deserialize: function(router, params) {
+	      				deserialize: function(router, params) {  
 	      					return params;	      					
 	      				}      						      				
 	      		}),	
