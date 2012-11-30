@@ -7,7 +7,8 @@
 	/* pagination variables */
 	var paginate = true;		/* true paginate, false don't paginate */
 	var numArchivePosts = 5;	/* number of posts for each page */	
-	var page;				 	
+	var page;
+	var postsIn = false; 		/* posts loaded on archive page */				 	
 	
 	// A helper function to define a property used to render the navigation. Returns
 	// true if a state with the specified name is somewhere along the current route.
@@ -40,6 +41,40 @@
 	  		result.day = "0" + result.day;
 	  	}
 	  	return result;	  	
+	};
+	
+	//call prettyprint on doPost available
+	function tPrettify() {					
+		setTimeout(function() {
+			
+			/* 
+			 code for catching post html and converting to json string, added to html propriety of post object
+			
+			//grab html from post text and stringify?
+			var text = $('#article-body').html();
+			console.log(JSON.stringify(text)); 
+			
+			*/
+			
+			// Handler for .ready() called.
+			$('pre').addClass('prettyprint');
+			prettyPrint();
+			$("pre .prettyprint").wrapInner("<span></span>");
+	
+			$("pre").hover(function() {
+				var contentwidth = $(this).contents().width();
+				var blockwidth = $(this).width();
+				if(contentwidth > blockwidth) {
+					$(this).animate({
+						width : "830px"
+					}, 250);
+				}
+			}, function() {
+				$(this).animate({
+					width : "720px"
+				}, 250);
+			});
+		}, 30);					
 	};
 	
 	// Create the application
@@ -111,7 +146,11 @@
 	  	}),
 	  	ArchiveView: Em.View.extend({
 	  		init: function() { this._super();},
-	  		templateName: 'archive',	  				  			  		
+	  		templateName: 'archive'	,
+	  		didInsertElement: function() {					
+				//activate page1 link
+				$('.page_navigation #page1').addClass('active_page');						  			
+	  		}  		 				  			  		
 	  	}),
 	  
 	  	//POSTS
@@ -135,7 +174,8 @@
 					self.set('content', App.Posts);
 				}
 				
-				self.updatePageLinks();			
+			//	self.updatePageLinks();		
+				self.get('updatePageLinks');
 			},																																		
 				
 			//function that returns only first six posts for index page
@@ -145,10 +185,11 @@
 			
 			//pagination TODO move proper pagination block
 			//sets content for each page
-			didRequestRange: function(rangeStart, rangeStop) { 
+			didRequestRange: function(rangeStart, rangeStop) { console.log('did request range');
     			var content = this.get('fullContent').slice(this.get('rangeStart'), this.get('rangeStop'));
     			this.replace(0, this.get('length'), content);  
-    			this.updatePageLinks();	
+    		//	this.updatePageLinks();	
+    			this.get('updatePageLinks');	
   			},
 			
 			//returns totalPages as an ember array so as to iterate over it
@@ -181,7 +222,8 @@
 				this.didRequestRange(this.get('rangeStart'), this.get('rangeStop'));
 			},
 			
-			updatePageLinks: function() {
+			updatePageLinks: function() { console.log('update called');
+				//TODO remove setTimeout if possible. bind updatePageLinks in some way to page
 				var page = this.get('page');
 				var total = this.get('totalPages'); 			
 				setTimeout(function() { 					
@@ -202,13 +244,13 @@
 						if ($('.page_navigation .forward').not('.no_more')) $('.page_navigation .forward').addClass('no_more');
 					}
 					
-				}, 10);
-			}															
+				}, 200);
+			}.property()															
 	  	}),	  	
   		  	
 	  	//POST
 	  	PostController: Ember.ObjectController.extend({
-	  		init: function() { this._super() }
+	  		init: function() { this._super(); }
 	  	}),
   		PostView: Ember.View.extend({
   			init: function() { this._super() },
@@ -280,13 +322,13 @@
 	      			},
 	      		}),
 	      		//post page manager
-	      		//TODO modify to output url .com/YY/MM/DD/post_title
 	      		post: Ember.Route.extend({ 
 	      				route: '/:post_id/:year/:month/:day/:title',
 	      				connectOutlets: function(router, context) {  	   	      					
 	      					var post = router.get('postsController.fullContent').objectAt(context.post_id);		      					
 	      					router.get('postController').set('content', post);
-	      					router.get('applicationController').connectOutlet('post');
+	      					router.get('applicationController').connectOutlet('post');	      					
+	      					tPrettify();		      					
 	      				},	
 	      				serialize: function(router, post_id) {	 
 	      					var post = router.get('postsController.fullContent').objectAt(post_id.post_id);	
@@ -365,3 +407,5 @@
 				
 	App.Posts = App.store.findAll(App.Post);
 })();
+
+
