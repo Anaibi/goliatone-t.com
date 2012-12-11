@@ -18,13 +18,15 @@
 		
 		<!-- ember -->				
 		<script src="ember/libs/handlebars-1.0.0.beta.6.js"></script>
-	<!--	<script src="ember/libs/ember-1.0.pre.min.js"></script> -->
-		<script src="http://cloud.github.com/downloads/emberjs/ember.js/ember-latest.js"></script>		
+		<script src="ember/libs/ember-1.0.0-pre.2.min.js"></script> 
+	<!--	<script src="http://cloud.github.com/downloads/emberjs/ember.js/ember-latest.js"></script>	-->	
 		<script src="ember/libs/ember-data.js"></script>
 		<script src="ember/libs/pagination_support.js"></script>
 		<script src="ember/app.js"></script>
 		
-		
+		<!-- mosaic on projects -->
+	<!--	<link type="text/css" rel="stylesheet" href="plugins/mosaic/mosaic.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="plugins/mosaic/mosaic.1.0.1.js"></script>  -->
 		
 		
 		<meta name="google-site-verification" content="TWGV929EFuxVYv-EqvoD2Hrc7s6gqOuJbM5j5fe3Agk" />		
@@ -48,7 +50,7 @@
 	<body>
 		
    		<script type="text/x-handlebars" data-template-name="application">
-	   		<div class="row" role="banner">
+	   		<div id="main-nav" class="row" role="banner">
 				<div class="three mobile-one columns">
 					<a {{action "doHome"}}><img src="http://www.gravatar.com/avatar/b28c54608965139b5dea3f4d9fc46189?s=128&amp;d=identicon&amp;r=PG" alt="Goliatone"></a>
 				</div>
@@ -82,7 +84,7 @@
 					<span>To self and beyond.</span>
 				</div>
 			</header>
-			<section id="index" class="main row">
+			<section id="index" class="main row posts">
 				{{#each post in postsController.firstPosts}} 
 		        	{{#if post.isFirst}} 
 			        	<article class="row">  
@@ -121,7 +123,24 @@
 			</header>
 	    	
 	    	<section id="portfolio" class="row main">
-	    		{{outlet}}
+	    		<div id="project-wrap"></div>
+	    		<div id="portfolio-wrap">
+		    		{{#each project in content}}
+		    			<article class="project mosaic">
+		    				<div class="preview">
+		    					<a {{action "doProject" context="this"}} {{bindAttr id="project.id"}} target="_blank" class="mosaic-overlay">
+			    					<div class="details">
+										<h4>{{project.title}}</h4>
+										<p>{{project.description}}</p>
+									</div>
+								</a>
+								<div class="mosaic-backdrop">	
+									<img {{bindAttr src="project.image.src" alt="project.image.alt"}} />
+								</div>
+							</div>
+						</article>
+		    		{{/each}}
+		    	</div>
 	    	</section>
 	    </script>
 	
@@ -170,260 +189,112 @@
 				</div>
 			</header>
 			
-			<section id="experience" class="row">
-				<h3>Experience</h3>
-				<hr />
+			<div id="download-resume">
+				<a href="/pdfs/2011-emiliano-burgos.pdf">Download PDF</a>
+			</div>
+			
+			{{#each resumeBlock in content}}
+				<section {{bindAttr id="resumeBlock.id"}} class="row">
+					<h3>{{resumeBlock.title}}</h3>
+					<hr />
+					{{! EXPERIENCE BLOCK }}
+					{{#if resumeBlock.isExperience}}
+						{{#each resumeItem in resumeBlock.items}}					
+							<div class="resumeItem" {{bindAttr id="resumeItem.id"}}>
+								<header class="title">
+									<h4>{{resumeItem.title}}</h4>
+									<p class="date">({{resumeItem.date-start}} - {{resumeItem.date-end}})</p>
+								</header>
+								<p class="description">{{resumeItem.description}}</p>
+								{{#if resumeItem.services}}
+									<div class="services">
+										<ul>
+											{{#each service in resumeItem.services}}
+												<li>{{service}}</li>
+											{{/each}}
+										</ul>
+									</div>									
+								{{/if}}	
+							</div>
+						{{/each}}
+					{{/if}}	
+					
+					{{! EDUCATION BLOCK }}
+					{{#if resumeBlock.isEducation}}
+						{{#each item in resumeBlock.items}}											
+							<div class="resumeItem">
+								<header class="title">
+									<h4>{{item.title}}</h4>
+									<p class="date">({{item.date-start}} - {{item.date-end}})</p>
+								</header>
+								<p class="description">{{item.description}}</p>	
+							</div>
+						{{/each}}
+					{{/if}}	
+			
+					{{! SKILLS BLOCK }}
+					{{#if resumeBlock.isSkills}}											
+						<div class="resumeItem">
+							<ul>
+								{{#each skill in resumeBlock.items}}
+									<li>{{skill}}</li>
+								{{/each}}
+							</ul>	
+						</div>
+					{{/if}}	
 				
-				<div class="resumeItem" id="enjoyMondays">
-					<header class="title">
-						<h4>Lead Developer, EnjoyMondays</h4>
-						<p class="date">(Feb. 2009 - Present)</p>
-					</header>
-					<p class="description">Web development firm providing integral service from client’s wireframes to final product delivery.
-						Clients include advertisement and marketing agencies, local brands and design studios.</p>
-					<div class="services">
-						<p>Services provided include:</p>
-						<ul>
-							<li>Freelance team recruitment and management.</li>
-							<li>Project architecture and development.</li>
-							<li>Technological consultancy.</li>
-						</ul>
-					</div>
-				</div>
+					{{! CLIENTS BLOCK }}
+					{{#if resumeBlock.isClients}}											
+						<div class="resumeItem">							
+							<ul>
+								{{#each item in resumeBlock.items}} 
+									{{#if item.clients}}
+										<li>{{#each client in item.clients}} {{client}}, {{/each}}...	</li>
+									{{/if}}
+									{{#if item.brands}}
+										<li>{{#each brand in item.brands}} {{brand}}, {{/each}}...	</li>
+									{{/if}}
+								{{/each}}
+							</ul>	
+						</div>
+					{{/if}}
 				
-				<div class="resumeItem" id="fatMan">
-					<header class="title">
-						<h4>Lead Flash Developer/Project Manager, Fat-Man Collective</h4>
-						<p class="date">(Jun. 2007-Jan. 2009)</p>
-					</header>
-					<p class="description">Freelance Multimedia Collective. Clients ranged from international agencies to 
-						start ups.</p>
-					<div class="services">
-						<p>Services provided include:</p>
-						<ul>
-							<li>Organized and managed teams of contractors for various projects.</li>
-							<li>Developed internal tools and frameworks to improve productivity, ie: project scafoldding
-								framework, internal project management system.</li>
-							<li>Developed the company website (v4, v3) front-end and back-end’s administration system.</li>
-							<li>PHP developer and Flash Lead on internal video questions and answers start up project qajack.</li>
-						</ul>
-					</div>
-				</div>
-	
-				<div class="resumeItem" id="worldNews">
-					<header class="title">
-						<h4>Flash Developer/Technology Consultant, World News</h4>
-						<p class="date">(Sep. 2006- Jun. 2007)</p>
-					</header>
-					<p class="description">Telecommuting for the global news network.</p>
-					<div class="services">
-						<p>Services provided include:</p>
-						<ul>
-							<li>Developed various Flash applications and games such as a drawing pad, coloring book and
-					 			graffiti writer.</li>
-							<li>Optimized templating system to be SEO friendly.</li>
-							<li>Optimized HTML structure for faster page load</li>
-						</ul>
-					</div>
-				</div>
+					{{! OPEN SOURCE PROJECTS BLOCK }}
+					{{#if resumeBlock.isOsProjects}}
+						{{#each project in resumeBlock.items}}											
+							<div class="resumeItem">
+								<p class="title"><a {{bindAttr href="project.title-link"}} target="_blank">{{project.title}}</a></p>
+								<p>{{project.description}}</p>
+							</div>
+						{{/each}}
+					{{/if}}
 				
-				<div class="resumeItem" id="bibtic">
-					<header class="title">
-						<h4>Web Developer, Bibtic</h4>
-						<p class="date">(Jan. 2004- Aug. 2006)</p>
-					</header>
-					<p class="description">Web design and development company, focused on local business.</p>
-					<div class="services">
-						<p>Services provided include:</p>
-						<ul>
-							<li>Developed websites and custom CMS.</li>
-							<li>Developed custom Wordpress plugins and themes.</li>
-							<li>Integrated online stores and payment methods.</li>
-						</ul>
-					</div>
-					<p class="technologies">Utilized PHP, MySQL, HTML,CSS, JavaScript. Flash ActionScript 2/3. Photoshop, Fireworks, Illustrator.</p>
-				</div>
-		
-				<div class="resumeItem" id="freelance">
-					<header class="title">
-						<h4>Freelance Web Developer</h4>
-						<p class="date">(2000- Present)</p>
-					</header>
-					<p class="description">Web design and development freelancing with strong focus on Flash and PHP.</p>
-				</div>
-			</section>
+				
+					{{! FEATURED PROJECTS BLOCK }}
+					{{#if resumeBlock.isFeaturedProjects}}
+						{{#each resumeItem in resumeBlock.items}}					
+							<div class="resumeItem" {{bindAttr id="resumeItem.id"}}>
+								<header class="title">
+									<h4>{{resumeItem.title}}</h4>
+									<p class="date">({{resumeItem.date-start}} - {{resumeItem.date-end}})</p>
+								</header>
+								<p class="technologies">{{resumeItem.technologies}}</p>
+								<div class="keyFeatures">
+									<p>Key features:</p>
+									<ul>
+										<li>Architecture enabling sharing individual content in social networks and providing
+											alternative content for non ash enabled devices.</li>
+										<li>Server technology enabling video recording and format conversion.</li>
+										<li>CMS to manage user generated data (comments,clues) and video management.</li>
+									</ul>
+								</div>	
+							</div>
+						{{/each}}
+					{{/if}}											
+				</section>				
+			{{/each}}
 			
-			<section id="education" class="row">
-				<h3>Education</h3>
-				<hr />
-				<div class="resumeItem">
-					<header class="title">
-						<h4>Telecommunications Engineering.</h4>
-						<p class="date">(1999-2004)</p>
-					</header>
-					<p class="description">Universitat Politecnica de Catalunya, Spain.</p>
-				</div>
-			</section>
 			
-			<section id="skills" class="row">
-				<h3>Skills</h3>
-				<hr />
-				<div class="resumeItem">
-					<ul>
-						<li>Object Oriented Programming.</li>
-						<li>MVC, HMVC.</li>
-						<li>ActionScript (1, 2, and 3).</li>
-						<li>PHP/MySQL (Kohana, CodeIgniter).</li>
-						<li>Flex and Air Applications.</li>
-						<li>Facebook Applications.</li>
-						<li>Multiuser Applications (Red5, SmartFoxServer)</li>
-						<li>Wordpress /Drupal Flash integration.</li>
-						<li>HTML/jQuery/CSS Front end Development.</li>
-						<li>RESTful, XML-RPC, SOAP.</li>
-						<li>Java Services For Flash.</li>
-					</ul>
-				</div>
-			</section>
-			
-			<section id="clients" class="row">
-				<h3>Clients & Brands</h3>
-				<hr />
-				<div class="resumeItem">
-					<ul>
-						<li>Mccann Erickson, Grey, Ogilvy, WorkClub, Mother, Envy, MorrisonAve...</li>
-						<li>Nokia, RedBull, Bacardi, Malibu Rum, Nestle, Roca, Vueling, Custo Barcelona...</li>
-					</ul>
-				</div>
-			</section>
-			
-			<section id="open-source-projects" class="row">
-				<h3>Open Source Projects</h3>
-				<hr />
-				<div class="resumeItem">
-					<p class="title"><a href="https://github.com/goliatone/emb-admin">emb-admin</a></p>
-					<p class="description">PHP, Kohana admin base module.</p>
-				</div>
-				<div class="resumeItem">
-					<p class="title"><a href="https://github.com/goliatone/emb-themes">emb-themes</a></p>
-					<p class="description">PHP, Kohana theme module.</p>
-				</div>
-				<div class="resumeItem">
-					<p class="title"><a href="https://github.com/goliatone/emb-dispatcher">emb-dispatcher</a></p>
-					<p class="description">PHP, Kohana event dispatcher module.</p>
-				</div>
-				<div class="resumeItem">
-					<p class="title"><a href="https://github.com/goliatone/emb-cli-scaffolding">emb-cli-scaffolding</a></p>
-					<p class="description">PHP, Kohana CLI scaffolding module.</p>
-				</div>
-				<div class="resumeItem">
-					<p class="title"><a href="https://github.com/goliatone/emb-media">emb-media</a></p>
-					<p class="description">PHP, Kohana media manager module.</p>
-				</div>
-				<div class="resumeItem">
-					<p class="title"><a href="https://github.com/goliatone/emb-notices">emb-notices</a></p>
-					<p class="description">PHP, Kohana flash notices module.</p>
-				</div>
-				<div class="resumeItem">
-					<p class="title"><a href="https://github.com/goliatone/as3LoggingFramework">as3LoggingFramework</a></p>
-					<p class="description">ActionScript 3 flexible logging framework.</p>
-				</div>
-				<div class="resumeItem">
-					<p class="title"><a href="https://github.com/goliatone/as3i18n">as3i18n</a></p>
-					<p class="description">ActionScript 3 localization library.</p>
-				</div>
-			</section>
-			
-			<section id="featured-projects" class="row">
-				<h3>Featured Projects</h3>
-				<hr />
-				<div class="resumeItem" id="lostMemories">
-					<header class="title">
-						<h4>Your Lost Memories, Boogaloo Films</h4>
-						<p class="date">(Jan. 2011- Ongoing )</p>
-					</header>
-					<p class="technologies">Flash, PHP, MySQL, AFMPHP, Kohana, Facebook SDK (PHP, JS) GoogleMaps API
-							Twitter, Red5,OpenGraph,Flex, Air.</p>
-					<div class="keyFeatures">
-						<p>Key features:</p>
-						<ul>
-							<li>Architecture enabling sharing individual content in social networks and providing
-								alternative content for non ash enabled devices.</li>
-							<li>Server technology enabling video recording and format conversion.</li>
-							<li>CMS to manage user generated data (comments,clues) and video management.</li>
-						</ul>
-					</div>
-				</div>
-	
-				<div class="resumeItem" id="vueling">
-					<header class="title">
-						<h4>Vueling Airlines, Digital Seed</h4>
-						<p class="date">(May. 2011 )</p>
-					</header>
-					<p class="technologies">Flash, PHP, MySQL, AFMPHP, Kohana, Facebook SDK (PHP, JS)</p>
-					<div class="keyFeatures">
-						<p>Key features:</p>
-						<ul>
-							<li>Real-time promotional game.</li>
-							<li>Managed and monitored user’s game data</li>
-						</ul>
-					</div>
-				</div>
-		
-				<div class="resumeItem" id="custo">
-					<header class="title">
-						<h4>Custo Barcelona, Morrison Ave.</h4>
-						<p class="date">(Oct. 2010- Nov. 2010)</p>
-					</header>
-					<p class="technologies">Flash, PHP, MySQL, AFMPHP, Kohana, Facebook SDK (PHP, JS)</p>
-					<p class="description">Generative art Facebook app with Flash front-end integrating prole information to
-						customize user experience and designs.</p>
-					<div class="keyFeatures">
-						<p>Key features:</p>
-						<ul >
-							<li>PHP backend to review and crunch app data</li>
-							<li>PHP promotion manager.</li>
-							<li>200,000 registered users.</li>
-						</ul>
-					</div>
-				</div>
-	
-				<div class="resumeItem" id="hermandadCoco">
-					<header class="title">
-						<h4>Hermandad del Coco, Malibu Rum.</h4>
-						<p class="date">(Feb. 2009 - Dec. 2009)</p>
-					</header>
-					<p class="technologies">Flash, JSFL, SmartFoxServer, PHP, MySQL, AFMPHP</p>
-					<p class="description">Planned, managed and developed a multi-user platform where users could interact in
-						real-time and chat with avatar.</p>
-					<div class="keyFeatures">
-						<p>Key features:</p>
-						<ul>
-							<li>Built in system to manage real time on site promotions.</li>
-							<li>Designed and implemented an avatar skinning scheme that streamlined designers
-							workflow. It provided JSFL scripts and worked on top of a custom skeleton framework.</li>
-							<li>Used custom built blit engine.</li>
-							<li>Max of 60,000 simultaneous users.</li>
-						</ul>
-					</div>
-				</div>
-	
-				<div class="resumeItem" id="regicapital">
-					<header class="title">
-						<h4>Regicapital, Larsson-Duprez.</h4>
-						<p class="date">(Oct. 2009-Nov. 2009)</p>
-					</header>
-					<p class="technologies">Flash, Wordpress, PHP, MySQL, AFMPHP</p>
-					<div class="keyFeatures">
-						<p>Key features:</p>
-						<ul>
-							<li>Built multilingual CMS on top of Wordpress for Flash front-end.</li>
-							<li>Entailed deep customization of Wordpress.</li>
-							<li>Used custom built blit engine.</li>
-							<li>Max of 60,000 simultaneous users.</li>
-						</ul>
-					</div>
-				</div>
-			</section>
 		</section><!-- end resume-->
 	    </script>
 	
@@ -434,7 +305,7 @@
 					<span>A window to the past.</span>
 				</div>
 			</header>
-			<section class="main">
+			<section id="archive" class="posts main">
 			    {{#each post in postsController}}
 				    <article class="row">                       
 				        <div class="three columns"><p class="date">{{post.date}}</p></div>

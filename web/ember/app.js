@@ -75,6 +75,107 @@
 				}, 250);
 			});
 		}, 30);					
+	};	
+	
+	
+	//function for loading projects in portfolio
+	function loadProject(project) { 
+		var $project = $("#project-wrap");
+		var $portfolio = $('#portfolio-wrap');
+		var $wrapper = $('.container');
+		var $mainNav = $('#main-nav');
+		var $header = $('header');
+		var $footer = $('footer');
+		var $close = $('#project-wrap span.close');
+		var $next = $('#project-wrap span.next');
+		var $prev = $('#project-wrap span.prev');
+		var offset = window.pageYOffset; 
+		showLoader();
+		$('html').animate({'scrollTop' : 0}, 400, function(){ 
+			$project.slideUp(500, function(){ 
+				//in the callback of the slideUp()
+				hideLoader();
+				//get all images in the project.
+				images = project.get('meta');
+	    		index = 0;				
+				$project.append('<div class="project-nav"><span class="circle close"><a href="#close">Close</a></span><span class="circle next"><a href="#next">Next</a></span><span class="circle prev"><a href="#prev">Prev</a></span></div>');
+				$project.append('<img src="'+images[0]+'" alt="" id="preview" class="fp_preview"/>');
+				$header.fadeOut(200);
+				$mainNav.fadeOut(200);
+	    		$footer.hide();
+	    		$portfolio.fadeOut(200,function(){
+	    			$project.slideDown(500);
+	    			showProject();
+	    		});
+	    		return false;		
+			});
+			return false;
+		});
+		
+		function showLoader(){
+			$wrapper.append('<span id="load" class="project-loader">LOADING...</span>');  
+			$('#load').fadeIn('normal'); 
+		};
+		
+		function hideLoader(){
+			$('#load').fadeOut('fast',function(){$('#load').remove();});
+		};
+		
+		function showProject(){
+			$('.project-nav').animate({'right':'0px'},200);
+		};
+		
+		function hideProject(){
+			$('.project-nav').animate({'right':'-181px'},200);
+		};
+		
+		function nextImage(){ 
+			if (++index > images.length - 1) index = 0;
+			showLoader();
+			var url = images[index]; 
+			$('<img class="fp_preview"/>').load(function(){ 
+				var $newimg         = $(this);  
+				var $currImage      = $('#project-wrap').children('img:first'); 
+				hideLoader(); 
+				$newimg.insertBefore($currImage);
+				$currImage.fadeOut(2000,function(){$(this).remove();});
+			}).attr('src',url);
+		};
+				
+		function prevImage(){
+			if (--index < 0) index = images.length - 1;
+			--index < 0 ? images.length : index;					
+			showLoader();
+			var url = images[index];
+			$('<img class="fp_preview"/>').load(function(){
+				var $newimg         = $(this);
+				var $currImage      = $project.children('img:first');
+				$newimg.data('origWidth', $newimg.width()).data('origHeight', $newimg.height());				
+				hideLoader();
+				$newimg.insertBefore($currImage);
+				$currImage.fadeOut(2000,function(){$(this).remove();});
+			}).attr('src',url);
+		};		
+		
+		$close.live('click',function(){
+			hideProject();
+			hideLoader();
+			$project.slideUp(200,function(){
+				$header.fadeIn(200);	
+				$mainNav.fadeIn(200);					
+				$portfolio.fadeIn(200, function(){
+					if(offset && offset > 0 ) $('body, html').animate({'scrollTop' : offset}, 400 );
+					$project.empty();
+					$footer.show();
+					$footer.fadeIn(200);
+				});
+			});
+			return false;
+		});
+				
+		$next.live('click',function(){nextImage()});
+		$prev.live('click',function(){prevImage()})
+						
 	};
 	
 	// Create the application
@@ -83,7 +184,7 @@
 		init: function() { 
 			this._super(); 
 		},				
-		
+				
 		// Define the main application controller. This is automatically picked up by
 	  	// the application and initialized.
 	  	ApplicationController: Ember.Controller.extend({
@@ -115,7 +216,31 @@
 	  
 	  	//PORTFOLIO
 	  	PortfolioController: Ember.Controller.extend({
-	  		init: function() { this._super() }
+	  		init: function() { 
+	  			var self = this; 
+	  			self._super();
+	  			self.loadContent(); 
+	  		},
+	  		
+	  		loadContent: function() {
+	  			var self = this; 
+	  			var url = "ember/data/portfolio.json";
+	  			$.getJSON(url,function(data){ 			
+		  			var content = [];
+	  				 $(data).each(function(index,project){
+	  				 	//each value is a project				     	
+				     	var item = App.Project.create({
+				     		id: project.id,
+				     		title: project.title,
+				     		description: project.description,
+							image: project.image,	
+							meta: project.meta	     		
+				     	});
+				     	content.pushObject(item);
+				     	self.set('content', content);
+	  				}); 
+	  			});
+	  		} 	  			  		
 	  	}),
 	  	PortfolioView: Ember.View.extend({
 	  		init: function() {  this._super() },
@@ -133,7 +258,41 @@
 	  	
 	  	//RESUME
 	  	ResumeController: Ember.Controller.extend({
-	  		init: function() { this._super() }
+	  		init: function() {
+	  			var self = this; 
+	  			self._super();
+	  			self.loadContent();
+	  		},
+	  		
+	  		loadContent: function() { 
+				var self = this; 
+	  			var url = "ember/data/resume.json";
+	  			$.getJSON(url,function(data){ 			
+		  			var content = [];
+	  				 $(data).each(function(index,resumeBlock){
+				     	var item = App.ResumeBlock.create({
+				     		id: resumeBlock.id,
+				     		title: resumeBlock.title,
+							items: resumeBlock.items,
+							
+							//TODO muy guarrindongo this solution, find better one
+							isExperience: isThis(resumeBlock.id, "experience"),
+							isEducation: isThis(resumeBlock.id, "education"),
+							isSkills: isThis(resumeBlock.id, "skills"),
+							isClients: isThis(resumeBlock.id, "clients"),
+							isOsProjects: isThis(resumeBlock.id, "osProjects"),
+							isFeaturedProjects: isThis(resumeBlock.id, "featured-projects")			     		
+				     	});
+				     	content.pushObject(item);
+				     	self.set('content', content);
+	  				}); 
+				}); 
+				
+				isThis = function(v1, v2) {
+					return (v1 == v2)
+				}			
+	  		},
+	  		
 	  	}),
 	  	ResumeView: Ember.View.extend({
 	  		init: function() { this._super() },
@@ -185,10 +344,9 @@
 			
 			//pagination TODO move proper pagination block
 			//sets content for each page
-			didRequestRange: function(rangeStart, rangeStop) { console.log('did request range');
+			didRequestRange: function(rangeStart, rangeStop) {
     			var content = this.get('fullContent').slice(this.get('rangeStart'), this.get('rangeStop'));
     			this.replace(0, this.get('length'), content);  
-    		//	this.updatePageLinks();	
     			this.get('updatePageLinks');	
   			},
 			
@@ -222,7 +380,7 @@
 				this.didRequestRange(this.get('rangeStart'), this.get('rangeStop'));
 			},
 			
-			updatePageLinks: function() { console.log('update called');
+			updatePageLinks: function() { 
 				//TODO remove setTimeout if possible. bind updatePageLinks in some way to page
 				var page = this.get('page');
 				var total = this.get('totalPages'); 			
@@ -354,13 +512,13 @@
 	      		nextPost: function(router, context) { 
 	      			router.transitionTo('post', {post_id: context.target.id - 1})	      		
 	      		},
-	      		
-	      		doPage: function(router, context) {						
-					page = context.target.id; 
-					console.log(page);
-					router.transitionTo('home');
-					router.transitionTo('posts.index');			
-				}			      		      
+	      		//open project clicked from portfolio
+				doProject: function(router, context) {
+		  			var portfolio = router.get('portfolioController').content;	
+		  			//this project as an ember object	  			
+		  			var project = $.grep(portfolio, function(e){ return e.id == context.target.id; });
+		  			loadProject(project[0]);
+		  		}			      		      
 	    	})
 	  	})  	
 	});
@@ -406,6 +564,26 @@
 	});	
 				
 	App.Posts = App.store.findAll(App.Post);
+	
+	//resume model
+	App.ResumeBlock = Em.Object.extend({
+		init: function() { this._super();},
+		id: null,
+		title: null,
+		items: null,
+		isExperience: null		
+	});	
+	
+	//portfolio model
+	App.Project = Em.Object.extend({
+		init: function() { this._super();},
+		id: null,
+		title: null,
+		description: null,
+		title: null,
+		meta: null		
+	});	
+
 })();
 
 

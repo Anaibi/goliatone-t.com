@@ -1,0 +1,233 @@
+[
+{
+	"id": "experience",
+	"title": "Experience",
+	"isExperience": "true",
+	"items": [
+		{
+			"id":"enjoyMondays",
+			"title": "Lead Developer, EnjoyMondays",
+			"date-start": "Feb. 2009",
+			"date-end": "Present",
+			"description": "Web development firm providing integral service from client's wireframes to final product delivery. Clients include advertisement and marketing agencies, local brands and design studios.",
+			"services": [
+				"Freelance team recruitment and management.",
+			   	"Project architecture and development.",
+			 	"Technological consultancy."
+			 ]			
+		},
+		{
+			"id":"fatMan",
+			"title": "Lead Flash Developer/Project Manager, Fat-Man Collective",
+			"date-start": "Jun. 2007",
+			"date-end": "Jan. 2009",
+			"description": "Freelance Multimedia Collective. Clients ranged from international agencies to start ups.",
+			"services": [
+				"Organized and managed teams of contractors for various projects.",
+				"Developed internal tools and frameworks to improve productivity, ie: project scafoldding framework, internal project management system.",
+				"Developed the company website (v4, v3) front-end and back-end’s administration system.",
+				"PHP developer and Flash Lead on internal video questions and answers start up project qajack."
+			]			
+		},
+		
+		{
+			"id":"worldNews",
+			"title": "Flash Developer/Technology Consultant, World News",
+			"date-start": "Sep. 2006",
+			"date-end": "Jun. 2007",
+			"description": "Telecommuting for the global news network.",
+			"services": [
+				"Developed various Flash applications and games such as a drawing pad, coloring book and graffiti writer.",
+				"Optimized templating system to be SEO friendly.",
+				"Optimized HTML structure for faster page load."
+			]			
+		},
+			
+		{
+			"id":"bibtic",
+			"title": "Web Developer, Bibtic",
+			"date-start": "Jan. 2004",
+			"date-end": "Aug. 2006",
+			"description": "Web design and development company, focused on local business.",
+			"services": [
+				"Developed websites and custom CMS.",
+				"Developed custom Wordpress plugins and themes.",
+				"Integrated online stores and payment methods."
+			]			
+		},						
+		{
+			"id":"freelance",
+			"title": "Freelance Web Developer",
+			"date-start": "2000",
+			"date-end": "Present",
+			"description": "Web design and development freelancing with strong focus on Flash and PHP."	
+		}
+	]
+		
+},
+	
+{
+	"id": "education",
+	"title": "Education",
+	"items": [
+		{
+			"id":"education",
+			"title": "Telecommunications Engineering.",
+			"date-start": "1999",
+			"date-end": "2004",
+			"description": "Universitat Politecnica de Catalunya, Spain."
+		}
+	]		
+},
+	
+{
+	"id": "skills",
+	"title": "Skills",
+	"items": [
+		"Object Oriented Programming.",
+		">MVC, HMVC.",
+		"ActionScript (1, 2, and 3).",
+		"PHP/MySQL (Kohana, CodeIgniter).",
+		"Flex and Air Applications.",
+		"Facebook Applications.",
+		"Multiuser Applications (Red5, SmartFoxServer)",
+		"Wordpress /Drupal Flash integration.",
+		"HTML/jQuery/CSS Front end Development.",
+		"RESTful, XML-RPC, SOAP.",
+		"Java Services For Flash."
+	]			
+},
+	
+{
+	"id": "clients",
+	"title": "Clients & Brands",
+	"items": [{
+		"clients": [
+			"Mccann",
+			"Erickson",
+			"Grey",
+			"Ogilvy",
+			"WorkClub",
+			"Mother",
+			"Envy",
+			"MorrisonAve"			
+		]},
+		{"brands": [
+			"Nokia",
+			"RedBull",
+			"Bacardi",
+			"Malibu",
+			"Rum",
+			"Nestle",
+			"Roca",
+			"Vueling",
+			"Custo Barcelona"
+		]}
+	]		
+},
+{
+	"id": "osProjects",
+	"title": "Open Source Projects",
+	"items": [ 
+		{"title": "emb-admin", 
+		"title-link": "https://github.com/goliatone/emb-admin",
+		"description": "PHP, Kohana admin base module."},
+		
+		{"title": "emb-themes",
+		"title-link": "https://github.com/goliatone/emb-themes",
+		"description": "PHP, Kohana theme module."},
+		
+		{"title": "emb-dispatcher",
+		"title-link": "https://github.com/goliatone/emb-dispatcher",
+		"description": "PHP, Kohana event dispatcher module."},
+		
+		{"title": "emb-media",
+		"title-link": "https://github.com/goliatone/emb-media",
+		"description": "PHP, Kohana media manager module."},
+		
+		{"title": "emb-notices",
+		"title-link": "https://github.com/goliatone/emb-notices",
+		"description": "PHP, Kohana flash notices module."},
+		
+		{"title": "as3LoggingFramework",
+		"title-link": "https://github.com/goliatone/as3LoggingFramework",
+		"description": "ActionScript 3 flexible loogin framework"},
+		
+		{"title": "as3i18n",
+		"title-link": "https://github.com/goliatone/as3i18n",
+		"description": "ActionScript 3 localization library."}
+	]
+},
+{
+	"id": "featured-projects",
+	"title": "Featured Projects",
+	"items": [
+		{
+			"id": "lostMemories",
+			"title": "Your Lost Memories, Boogaloo Films",
+			"date-start": "Jan. 2011",
+			"date-end": "Ongoing",						
+			"technologies": "Flash, PHP, MySQL, AFMPHP, Kohana, Facebook SDK (PHP, JS) GoogleMaps API Twitter, Red5,OpenGraph,Flex, Air.",
+			"keyFeatures": [
+				"Architecture enabling sharing individual content in social networks and providing content for non ash enabled devices",
+				"Server technology enabling video recording and format conversion.",
+				"CMS to manage user generated data (comments,clues) and video management."
+			]
+		},
+		
+		{
+			"id": "vueling",
+			"title": "Vueling Airlines, Digital Seed",
+			"date-start": "May. 2011",						
+			"technologies": "Flash, PHP, MySQL, AFMPHP, Kohana, Facebook SDK (PHP, JS)",
+			"keyFeatures": [
+				"Real-time promotional game.",
+				"Managed and monitored user’s game data"
+			]
+		},
+		
+		{
+			"id": "custo",
+			"title": "Custo Barcelona, Morrison Ave.",
+			"date-start": "Oct. 2010",
+			"date-end": "Nov. 2010",
+			"technologies": "Flash, PHP, MySQL, AFMPHP, Kohana, Facebook SDK (PHP, JS)",
+			"description": "Generative art Facebook app with Flash front-end integrating pole information to customize user experience and designs.",									
+			"keyFeatures": [
+				"PHP backend to review and crunch app data.",
+				"PHP promotion manager.",
+				"200,000 registered users."	
+			]
+		},
+		
+		{
+			"id": "hermandadCoco",
+			"title": "Hermandad del Coco, Malibu Rum.",
+			"date-start": "Feb. 2009",
+			"date-end": "Dec. 2009",
+			"technologies": "Flash, JSFL, SmartFoxServer, PHP, MySQL, AFMPHP",
+			"description": "Planned, managed and developed a multi-user platform where users could interact in real-time and chat with avatar.",									
+			"keyFeatures": [
+				"Built in system to manage real time on site promotions.",
+				"Designed and implemented an avatar skinning scheme that streamlined designers workflow. It provided JSFL scripts and worked on top of a custom skeleton framework",
+				"Used custom built blit engine.",
+				"Max of 60,000 simultaneous users."			
+			]
+		},
+		
+		{
+			"id": "regicapital",
+			"title": "Regicapital, Larsson-Duprez.",
+			"date-start": "Oct. 2009",
+			"date-end": "Nov. 2009",
+			"technologies": "Flash, Wordpress, PHP, MySQL, AFMPHP",
+			"description": "Planned, managed and developed a multi-user platform where users could interact in real-time and chat with avatar.",									
+			"keyFeatures": [
+				"Built multilingual CMS on top of Wordpress for Flash front-end.",
+				"Entailed deep customization of Wordpress.",
+				"Used custom built blit engine.",
+				"Max of 60,000 simultaneous users."
+			]
+		}
+	]
+}]

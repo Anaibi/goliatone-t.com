@@ -226,26 +226,9 @@ article.row {
 	padding: 28px 0 17px 0;
 }
 
-#archives {
-	border-top: 1px dotted #3C3C3C;
-}
-
-#archives .date {
-	line-height: 30px;
-}
-
-#archives h3 {
-	margin-left: -20px;
-}
-
-#archives h3 a:hover {
-	background-color: #3c3c3c;
-	opacity: 1;
+.posts h3 a:hover {
+	background-color: #3C3C3C;
 	padding: 3px;
-}
-
-#archives > div:first-child {
-	margin-bottom: 20px;
 }
 
 /* -----------------------------------------
@@ -255,10 +238,108 @@ article.row {
 	margin-bottom: 30px;
 }
 
-.project img{
-	border: 1px solid #ccc;
+.project .details {
+	display: none;
 }
 
+
+/* display for projects */
+.project.mosaic {
+	position: relative;
+	border: 1px solid #ccc;
+	height: 250px;
+	width: 720px;
+	overflow: hidden;
+}
+
+.project .mosaic-overlay {
+	background: url('img/preview-cover-3.png') repeat scroll 0 0 transparent;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	z-index: 5;
+	opacity: 0;
+}
+
+.project .mosaic-overlay:hover {
+	opacity: 0.8;
+}
+
+/* project navigation */
+span.circle {
+	background: none repeat scroll 0 0 #000;
+   -moz-border-radius:50px;
+    -webkit-border-radius:50px;
+    border-radius:50px;
+    display: block;
+    margin:-45px 0px 0px -45px;
+    overflow: hidden;
+    position: absolute;
+    width:90px;
+	height:90px;
+    z-index: 4;
+    cursor: pointer;
+}
+span.circle:hover{
+	background-color:#ff3366;
+}
+span.close{
+	background:#000 url(../images/buttons/close-btn.png) no-repeat center center;
+}
+span.next{
+	margin-top:53px;
+	background:#000 url(../images/buttons/next-btn.png) no-repeat center center;
+}
+span.prev{
+	margin-top:150px;
+	background:#000 url(../images/buttons/prev-btn.png) no-repeat center center;
+}
+
+.loading {
+	background:#000 url(../images/thumb-loader.gif) no-repeat center center;
+	background:#000 url(../images/project-loader.gif) no-repeat center center;
+}
+
+.project-nav a {}
+.project-nav {
+    margin-top: 0;
+    position: fixed;
+    top:100px;
+	right:20px;
+	right:83px;
+	/*right:-183px;*/
+    width: 71px;
+    z-index: 5555;
+    text-indent:-9999em;
+    height: 300px;
+}
+
+.project-loader {
+	display:none;
+	position:fixed;
+	top:100px;
+	right:110px;
+	margin:-45px 0px 0px -45px;
+	width:90px;
+	height:90px;
+    -moz-border-radius:50px;
+    -webkit-border-radius:50px;
+    border-radius:50px;
+	background:#000 url(../images/project-loader.gif) no-repeat center center;
+    z-index:99999;
+    opacity:0.7;
+    /* to center*/
+	top:50%;
+	left:50%;
+    text-indent: -9999em;  
+}
+
+img.fp_preview{
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:100%;
+}
 /* -----------------------------------------
    Page ABOUT
 ----------------------------------------- */
@@ -332,14 +413,14 @@ p.about-intro {
     color: #323232;
 }
 
-#resume h4{
+#resume h4 {
 	font-size: 18px;
 	color: #323232;
 	width:100%;
 	margin:0;
 }
 
-#resume hr{
+#resume hr {
 	border-bottom: 1px dotted /*#E9E9E9*/;
 	color: #FAFAFA; 
 	background-color: #FAFAFA; 
@@ -371,6 +452,38 @@ p.about-intro {
 	margin-bottom: 33px;
 }
 
+#download-resume{
+	height:20px;
+    left:10px;
+    position:fixed;
+    top:10px;
+}
+
+div#download-resume a
+{
+	display:block;
+    background-color:#111;
+    padding:5px;
+    padding-right:7px;
+    padding-left:7px;
+    text-decoration: none;
+    font-size:12px;
+    color:#fff;
+    font-weight:bold;
+    border-radius: 7px 7px 7px 7px;
+    -moz-border-radius: 7px;
+	-webkit-border-radius:7px;
+	-khtml-border-radius: 7px;
+}
+div#download-resume a:hover
+{
+    background-color:#9bf239;
+    color:#111;
+}
+
+#resume .technologies {
+	padding: 20px 0;
+}
 /* -----------------------------------------
    Page ARCHIVES
 ----------------------------------------- */
@@ -440,11 +553,50 @@ a.active_page {
 .post-navigation a.disabled-link {
 	display: none;
 }
-
 /* post */
+.post {
+	padding-bottom: 80px;
+	padding-top: 15px;
+}
+.post p {
+	text-align: justify;
+	margin: 10px 0;
+	line-height: 30px;
+}
+.post #article-thumb img {
+	border: 2px solid #121212;
+}
+
+.post code {
+	background: none repeat scroll 0 0 #222222;
+	font-weight: normal;
+	font-size: 14px;
+	color: #EAEAEA;
+	font-family: 'Droid Sans Mono' !important;
+	padding: 5px;
+}
+.post code span {
+	font-family: 'Droid Sans Mono' !important;
+}
+.post pre {
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	padding: 20px;
+	margin: 20px 0;
+}
+.post a {
+	text-decoration: underline;
+}
+.post ul {
+	list-style-type: none;
+	padding-left: 40px;
+}
+/* first post */
 #postExpanded {
 	min-height: 500px;
 }
 #postExpanded article {
 	padding-bottom: 80px;
 }
+
+
