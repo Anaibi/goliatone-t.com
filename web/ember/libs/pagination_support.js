@@ -34,7 +34,7 @@ Ember.PaginationSupport = Ember.Mixin.create({
 		return get(this, 'rangeStop') < get(this, 'total');
 	}.property('rangeStop', 'total').cacheable(),
 
-	nextPage: function() {
+	nextPage: function() { 
 		if (get(this, 'hasNext')) {
 			this.incrementProperty('rangeStart', get(this, 'rangeWindowSize'));
 		}
@@ -55,6 +55,6 @@ Ember.PaginationSupport = Ember.Mixin.create({
 	}.property('total', 'rangeWindowSize').cacheable(),
 
 	pageDidChange: function() { 	
-		this.didRequestRange(get(this, 'rangeStart'), get(this, 'rangeStop'));
+		this.didRequestRange(get(this, 'rangeStart'), get(this, 'rangeStop')); 
 	}.observes('total', 'rangeStart', 'rangeStop')
 });

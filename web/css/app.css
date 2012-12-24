@@ -143,7 +143,7 @@ div[role="banner"] {
 }
 
 /* CONTENTS */
-section.main {
+.container {
 	padding-bottom: 200px;
 }
 
@@ -172,6 +172,21 @@ footer p.first{
 
 footer a:hover {
 	text-decoration: underline;
+}
+
+/* SCROLL TO TOP CONTROLLER */
+#topcontrol {
+	bottom: 12px;
+	cursor: pointer;
+/*	opacity: 0;*/
+	display: none;
+	position: fixed;
+	right: 15px;
+	z-index: 9999;
+}
+#topcontrol-img {
+	height: 48px;
+	width: 48px;
 }
 /* -----------------------------------------
    Page INDEX
@@ -231,6 +246,85 @@ article.row {
 	padding: 3px;
 }
 
+/* tooltips */
+
+.postTip {
+	width: 280;
+	display: none;
+	border-radius: 4px;
+	border: 0 none;
+	font-size: 10.5px;
+	left: -28000px;
+	line-height: 12px;
+	max-width: 280px;
+	min-width: 50px;
+	position: absolute;
+	top: -28000px;
+	z-index: 15010;
+	word-wrap: break-word;
+	padding: 5px 9px;
+	box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.15);
+	background-color: rgba(0,0,0,.85);
+}
+
+.postTip h4, .postTip p {
+	color: white;
+	font-family: 'Lucida Grande', sans-serif;
+	font-weight: bold;
+	line-height: 16px;
+	text-shadow: 0 1px black;
+}
+.postTip h4 {
+	font-size: 13px;	
+}
+
+.postTip p {
+	font-size: 11px;
+	margin: 11px 0;
+}
+
+.postTip a {
+	color: #9BF239;
+}
+
+.postTip .postTip-box {
+	background-color: transparent;
+	border: 0 none;
+	height: 6px;
+	left: -15px;
+	margin-top: -3px;
+	width: 6px;
+	position: relative;
+}
+
+.postTip .postTip-box canvas {
+	background-color: transparent;
+	border: 0 none;
+}
+
+.postTip pre {
+	background-color: black;
+	white-space: pre-wrap;
+	word-wrap: break-word;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 20px;	
+	color: white;
+}
+
+.postTip code {
+	font-family: 'Droid Sans Mono';
+	background-color: black;
+	font-size: 12px;
+	line-height: 22px;
+	padding: 5px;
+}
+
+.postTip.visible {
+	display: block;
+	left: 0;
+	top: 900px;
+}
 /* -----------------------------------------
    Page PORTFOLIO
 ----------------------------------------- */
@@ -487,18 +581,20 @@ div#download-resume a:hover
 /* -----------------------------------------
    Page ARCHIVES
 ----------------------------------------- */
-
+#archive {
+	min-height: 500px;
+}
 #pnWrapper.row {
 	margin-bottom: 100px;
 }
 
-/** PAJINATE **/
+/** PAGINATE **/
 .page_navigation {
 	margin-top: 35px;
 }
 .page_navigation a {
 	padding: 5px;
-	margin-right: 3px;
+	margin-right: -2px;
 	color: white;
 	background-color: #111;
 }

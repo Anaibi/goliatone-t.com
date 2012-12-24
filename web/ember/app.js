@@ -1,4 +1,4 @@
-(function() {
+(function() { 
 	
 	/* parameters: ************************************/
 	/* number of posts to display in index.html page */
@@ -8,8 +8,11 @@
 	var paginate = true;		/* true paginate, false don't paginate */
 	var numArchivePosts = 5;	/* number of posts for each page */	
 	var page;
-	var postsIn = false; 		/* posts loaded on archive page */				 	
+	var postsIn = false; 		/* posts loaded on archive page */	
+	var tooltipLength = 250; 	/* potst tooltip aproximate lenght -will adjust to actual html tags */			 	
 	
+	
+	/* helper and plugin functions: ************************************/
 	// A helper function to define a property used to render the navigation. Returns
 	// true if a state with the specified name is somewhere along the current route.
 	function stateFlag(name) { 
@@ -41,22 +44,11 @@
 	  		result.day = "0" + result.day;
 	  	}
 	  	return result;	  	
-	};
+	}; 
 	
-	//call prettyprint on doPost available
+	// call prettyprint on doPost available
 	function tPrettify() {					
 		setTimeout(function() {
-			
-			/* 
-			 code for catching post html and converting to json string, added to html propriety of post object
-			
-			//grab html from post text and stringify?
-			var text = $('#article-body').html();
-			console.log(JSON.stringify(text)); 
-			
-			*/
-			
-			// Handler for .ready() called.
 			$('pre').addClass('prettyprint');
 			prettyPrint();
 			$("pre .prettyprint").wrapInner("<span></span>");
@@ -77,8 +69,63 @@
 		}, 30);					
 	};	
 	
+	// create summary for tooltip
+	function tCut(html) {
+		var resume = html.slice(0, tooltipLength);
+		//check for unclossed links
+		var open = resume.lastIndexOf('<a');
+		if (open !== -1) {			//there is link at the end of the resume
+			var close = resume.lastIndexOf('/a>');
+			if (close < open) { 	//either there is no closing tag or it is from another link
+				var part = html.slice(tooltipLength);	//add the closing tag to the resume
+				close = part.indexOf('/a>');
+				part = part.slice(0, close+3);
+				resume = resume + part;
+			}
+		}
+		//add preventive closing tags and ...
+		resume = resume + '... <\/code><\/pre><\/p>';
+		return resume;
+	}	
 	
-	//function for loading projects in portfolio
+	// create tip and display
+	function createTip(element) {
+		var $this = $(element);
+	 	var $postTip = $this.parent().parent().next(); 
+	  	var canvas = $postTip.find('canvas')[0]; 
+		var $postTipBox = $this.parent().parent().next().find('.postTip-box');
+	  	//add canvas element to postTip box
+	  	var context = canvas.getContext('2d');	  					
+	  	//draw triangle pointer
+	 	context.beginPath();
+	  	context.moveTo(0,3);
+	  	context.lineTo(6,0);
+	  	context.lineTo(6,6);
+	  	context.fillStyle = "rgba(0, 0, 0, .85)"; /* can be changed to catch color of tooltip box */
+	  	context.fill();
+	  	//position pointer relative to height of tip-box					
+		$postTipBox.css('top', $postTip.height() / 2 - 3);
+		//get tip position
+	 	var offset = $this.offset();
+	 	var top = offset.top - ($postTip.height() / 2) + ($this.height() / 2);
+	  	var left = offset.left + $this.width() + 20; 
+	 	//show tip
+	 	$postTip.css({'top': top, 'left': left}).fadeIn('slow').addClass('visible');
+	}
+	
+	//add tips
+	function callTips() {
+		$('.postTip-link').hover( 
+			function() { 
+				createTip(this);
+		  	},
+			function() {
+		  		$(this).parent().parent().next().removeClass('visible').fadeOut('fast');
+			}
+		);	
+	}
+	
+	// load projects in portfolio includes navigation
 	function loadProject(project) { 
 		var $project = $("#project-wrap");
 		var $portfolio = $('#portfolio-wrap');
@@ -200,7 +247,23 @@
 		
 	  	ApplicationView: Ember.View.extend({
 	  		init: function() { this._super() },
-	    	templateName: 'application'			
+	    	templateName: 'application', 
+	    	classNames: 'scroll-block',
+	    	didInsertElement: function() {  
+	    		//manage scroll to top button  		
+	    		var $topcontrol = $('#topcontrol');
+	    		var $top = $('.scroll-block').offset().top - 15;
+	    		$(window).scroll(function() { 
+	    			if (($top  - $(window).scrollTop()) === 0) { 
+	    				$topcontrol.fadeOut('slow');
+	    			} else { 
+	    				$topcontrol.fadeIn('slow').click(function() {
+	    					$('html, body').animate({scrollTop: 0}, 800);
+	    					return false;
+	    				})
+	    			}
+	    		});	    		
+	    	}		
 	  	}),
 		
 		/* CONTROLLERS AND VIEWS ******************************************************/ 
@@ -211,7 +274,11 @@
 	  	}),
 	  	HomeView: Ember.View.extend({
 	  		init: function() { this._super() },
-	    	templateName: 'home'
+	    	templateName: 'home',
+	  		didInsertElement: function() {
+	  			//add post tips
+	  			callTips();
+	  		}
 	  	}),
 	  
 	  	//PORTFOLIO
@@ -307,8 +374,10 @@
 	  		init: function() { this._super();},
 	  		templateName: 'archive'	,
 	  		didInsertElement: function() {					
-				//activate page1 link
-				$('.page_navigation #page1').addClass('active_page');						  			
+				// activate page1 link
+				$('.page_navigation #page1').addClass('active_page');	
+				// add post tips
+				callTips();							  			
 	  		}  		 				  			  		
 	  	}),
 	  
@@ -333,8 +402,7 @@
 					self.set('content', App.Posts);
 				}
 				
-			//	self.updatePageLinks();		
-				self.get('updatePageLinks');
+				self.updatePageLinks();		
 			},																																		
 				
 			//function that returns only first six posts for index page
@@ -347,7 +415,7 @@
 			didRequestRange: function(rangeStart, rangeStop) {
     			var content = this.get('fullContent').slice(this.get('rangeStart'), this.get('rangeStop'));
     			this.replace(0, this.get('length'), content);  
-    			this.get('updatePageLinks');	
+    			this.updatePageLinks();	
   			},
 			
 			//returns totalPages as an ember array so as to iterate over it
@@ -362,25 +430,25 @@
 			}.property('@each'),
 			
 			//calls content for page
-			setPage: function(context) { 			 
+			setPage: function(context) {  	 
 				var rangeStart = (context.target.text-1) * this.get('rangeWindowSize');
 				this.set('rangeStart', rangeStart); 
 				this.didRequestRange(this.get('rangeStart'),this.get('rangeStop'));														
 			},
 			
 			//page navigation actions
-			firstPage: function(context) {
+			firstPage: function(context) { 
 				this.set('rangeStart', 0); 
 				this.didRequestRange(0, this.get('rangeStop'));
 			},
 			
-			lastPage: function(context) {
+			lastPage: function(context) { 
 				var rangeStart = (this.get('totalPages') -1) * this.get('rangeWindowSize');
 				this.set('rangeStart', rangeStart); 
 				this.didRequestRange(this.get('rangeStart'), this.get('rangeStop'));
 			},
 			
-			updatePageLinks: function() { 
+			updatePageLinks: function() {
 				//TODO remove setTimeout if possible. bind updatePageLinks in some way to page
 				var page = this.get('page');
 				var total = this.get('totalPages'); 			
@@ -402,8 +470,18 @@
 						if ($('.page_navigation .forward').not('.no_more')) $('.page_navigation .forward').addClass('no_more');
 					}
 					
-				}, 200);
-			}.property()															
+					//recall tips
+					$('.postTip-link').hover( 
+	  				function() { 
+	  					createTip(this);
+		  			},
+		  			function() {
+		  				$(this).parent().parent().next().removeClass('visible').fadeOut('fast');
+		  			}
+		  		);	
+					
+				}, 0);
+			}															
 	  	}),	  	
   		  	
 	  	//POST
@@ -446,7 +524,6 @@
 	      			},
 	      		}),
 	      		//portfolio page manager
-	      		//TODO add content to portfolioController
 	      		portfolio: Ember.Route.extend({
 	        		route: '/portfolio',
 	        		connectOutlets: function(router) { 
@@ -503,12 +580,13 @@
 	      				router.transitionTo('post', {post_id: context.target.id});
 	      		},
 	      		//navigate to previous post
-	      		//TODO catch out of limits index
 	      		prevPost: function(router, context) {  
-	      			router.transitionTo('post', {post_id: parseInt(context.target.id) + 1})	      		
+	      			var id = parseInt(context.target.id) + 1; 
+	      			var totalPosts = router.get('postsController.fullContent').toArray().length;
+					if (id === totalPosts) id = 0; 	      			
+	      			router.transitionTo('post', {post_id: id});	      				      		
 	      		},
 	      		//navigate to next post
-	      		//TODO catch out of limits index
 	      		nextPost: function(router, context) { 
 	      			router.transitionTo('post', {post_id: context.target.id - 1})	      		
 	      		},
@@ -531,22 +609,18 @@
 		date: DS.attr('string'),
 		summary: DS.attr('string'),
 		html: DS.attr('string'),
-		img: DS.attr('string')
+		img: DS.attr('string'),
+		resume: function() {
+			if (this.get('html')) {
+				html = this.get('html');
+            	html = tCut(html);
+			} else html = '<p> No text in post.<\/p>';
+      		
+            return html;
+        }.property('html')
 	}).reopenClass({
     	url: 'ember/data/posts.json'
 	});
-	
-	//TODO complete depending on final .json
-	App.HtmlText = DS.Model.extend({
-		content: [],
-		post: DS.belongsTo('Post')
-	});
-	//TODO complete depending on final .json	
-	App.Img = DS.Model.extend({
-		src: DS.attr('string'),
-		alt: DS.attr('string'),
-		post: DS.belongsTo('Post')
-	});	
 	
 	//ADAPTER
 	App.adapter = DS.Adapter.create({
@@ -585,5 +659,3 @@
 	});	
 
 })();
-
-

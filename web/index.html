@@ -73,10 +73,12 @@
 					<p class="two columns first">&copy; 2011 Goliatone</p><p class="two columns end">Powered by <a href="http://cloudhead.io/toto">toto</a></p>
 				</div>			
 			</footer>
+				
+			<div id="topcontrol" title="scroll back to top">
+				<img id="topcontroll-img" src="images/up.png" />			
+			</div>
 	    </script>
-	    
-	    
-	    
+	        
 	    <script type="text/x-handlebars" data-template-name="home">
 	      	<header>
 				<div class="row tagline">
@@ -84,12 +86,12 @@
 					<span>To self and beyond.</span>
 				</div>
 			</header>
-			<section id="index" class="main row posts">
+			<section id="index" class="main row posts archives">
 				{{#each post in postsController.firstPosts}} 
 		        	{{#if post.isFirst}} 
 			        	<article class="row">  
 			       			<div class="header row">
-			               		<h2><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}}>{{post.title}}</a></h2>   
+			               		<h2><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="post-title">{{post.title}}</a></h2>   
 			              		<p class="date">{{post.date}}</p>
 			              	</div>
 							<div class="content">
@@ -100,19 +102,14 @@
 							</div>													
 			           	</article> 	                            
 		          	{{else}}
-			       		<article class="row">                       
-			             	<div class="three columns"><p class="date">{{post.date}}</p></div>
-			             	<div class="nine columns posttitle">
-			                	<h3><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}}>{{post.title}}</a></h3>
-			              	</div>
-			         	</article>
+			       		{{template "post-header"}}
 		           	{{/if}}
 		       	{{/each}}
 		       	<div class="more">
 		       		<a {{action "doArchive"}} class="button radius right">+ Archives</a>
 		       	</div>	
 	       	</section>
-	    </script>
+	    </script>	
 	
 	    <script type="text/x-handlebars" data-template-name="portfolio">
 	    	<header>
@@ -305,33 +302,24 @@
 					<span>A window to the past.</span>
 				</div>
 			</header>
-			<section id="archive" class="posts main">
+			<section id="archive" class="posts main archives">
 			    {{#each post in postsController}}
-				    <article class="row">                       
-				        <div class="three columns"><p class="date">{{post.date}}</p></div>
-				        <div class="nine columns posttitle">
-				          	<h3><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}}>{{post.title}}</a></h3>
-				        </div>
-				    </article>
+				    {{template "post-header"}}
 			   	{{/each}} 
-		   		
-		  		{{#if postsController.hasPaginationSupport}}			   		
-					<div class="row page_navigation">
-						<a class="back no_more" {{action "firstPage" target="postsController"}}>First</a>
-						<a class="back no_more" {{action "previousPage" target="postsController"}}>Prev</a>
-						<span class="ellipse less" style="display: none;" {{bindAttr data="postsController.page"}}></span>
-						{{#each page in postsController.totalPagesArray}} 					
-					  		<a {{action "setPage" target="postsController"}} {{bindAttr id="page.id"}} class="page_link">{{page.content}}</a>
-					 	{{/each}}
-					 	<span class="ellipse more" style="display: none;"></span>
-					 	<a class="forward" {{action "nextPage" target="postsController"}}>Next</a>
-					   	<a class="forward" {{action "lastPage" target="postsController"}}>Last</a>
-					</div>	
-				{{/if}} 	   		
-		  	</section>  
+			</section>
+		  	{{#if postsController.hasPaginationSupport}}			   		
+				<div class="row page_navigation">
+					<a class="back no_more" {{action "firstPage" target="postsController"}}>First</a>
+					<a class="back no_more" {{action "previousPage" target="postsController"}}>Prev</a>					
+					{{#each page in postsController.totalPagesArray}} 					
+						<a {{action "setPage" target="postsController"}} {{bindAttr id="page.id"}} class="page_link">{{page.content}}</a>
+					{{/each}}					
+					<a class="forward" {{action "nextPage" target="postsController"}}>Next</a>
+					<a class="forward" {{action "lastPage" target="postsController"}}>Last</a>
+				</div>	
+			{{/if}} 	   				  	  
 		</script>
-	    
-	    
+	    	    
 	    <script type="text/x-handlebars" data-template-name="post">
 		    <section class="main">
 		   		<header>
@@ -363,8 +351,23 @@
 			    </div>	
 			</section>
     	</script>
-    	<link type="text/css" rel="stylesheet" href="plugins/google-code-prettify/toto-desert.css" />
+    	     	
+		<script type="text/x-handlebars" data-template-name="post-header">
+			<article class="row">                       
+				<div class="three columns"><p class="date">{{post.date}}</p></div>
+				<div class="eight columns posttitle">
+			    	<h3><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="postTip-link">{{post.title}}</a></h3>
+			 	</div>
+			 	<div class="postTip">
+			 		<div class="postTip-box"><canvas height="10" width="10"></canvas></div>
+			 		<h4>{{post.title}}</h4>
+			 		{{{post.resume}}}
+			 	</div>
+			</article>
+		</script>  		
+		
+		<link type="text/css" rel="stylesheet" href="plugins/google-code-prettify/toto-desert.css" />
 		<script type="text/javascript" src="plugins/google-code-prettify/prettify.js"></script>	
-    	  		
+					
 	</body>
 </html>	    
