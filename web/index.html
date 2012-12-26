@@ -1,19 +1,16 @@
 <!doctype html>
 <html>
 	<head>
-		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE7" />
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+		
+		<!-- IE FIX -->		
+		<meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
 		
 		<!-- CSS -->
 		<!-- foundation -->
 		<link rel="stylesheet" type="text/css" href="css/foundation.css">
 		<link rel="stylesheet" type="text/css" href="css/app.css">
-		
-		<!-- IE html5 fix so that new structural elements force line break-->
-		<!--[if IE]>
- 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js">
- 			</script>
-		<![endif]-->
-		
+						
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		
 		<!-- ember -->				
@@ -23,14 +20,8 @@
 		<script src="ember/libs/ember-data.js"></script>
 		<script src="ember/libs/pagination_support.js"></script>
 		<script src="ember/app.js"></script>
-		
-		<!-- mosaic on projects -->
-	<!--	<link type="text/css" rel="stylesheet" href="plugins/mosaic/mosaic.css" type="text/css" media="screen" />
-		<script type="text/javascript" src="plugins/mosaic/mosaic.1.0.1.js"></script>  -->
-		
-		
-		<meta name="google-site-verification" content="TWGV929EFuxVYv-EqvoD2Hrc7s6gqOuJbM5j5fe3Agk" />		
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+					
+		<meta name="google-site-verification" content="TWGV929EFuxVYv-EqvoD2Hrc7s6gqOuJbM5j5fe3Agk" />				
 		<meta name="description" content="Blog of Goliatone" />
 		<title> Goliatone </title>
 		
@@ -279,8 +270,7 @@
 								<div class="keyFeatures">
 									<p>Key features:</p>
 									<ul>
-										<li>Architecture enabling sharing individual content in social networks and providing
-											alternative content for non ash enabled devices.</li>
+										<li>Architecture enabling sharing individual content in social networks and providing alternative content for non ash enabled devices.</li>
 										<li>Server technology enabling video recording and format conversion.</li>
 										<li>CMS to manage user generated data (comments,clues) and video management.</li>
 									</ul>
@@ -356,10 +346,10 @@
 			<article class="row">                       
 				<div class="three columns"><p class="date">{{post.date}}</p></div>
 				<div class="eight columns posttitle">
-			    	<h3><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="postTip-link">{{post.title}}</a></h3>
+			    	<h3><a {{action "doPost" context="post"}} class="postTip-link">{{post.title}}</a></h3>
 			 	</div>
 			 	<div class="postTip">
-			 		<div class="postTip-box"><canvas height="10" width="10"></canvas></div>
+			 		<div class="postTip-box"><canvas {{bindAttr id="post.id"}} height="6" width="6"></canvas></div>
 			 		<h4>{{post.title}}</h4>
 			 		{{{post.resume}}}
 			 	</div>

@@ -7,7 +7,7 @@
 			"src": "images/projects/fat-man-collective-preview.png",
 			"alt": "image-fat-man-collective"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/fat-man-collective.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/fat-man-collective.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/fat-man-collective.com/screenshots/image03.png",
@@ -26,7 +26,7 @@
 			"src": "images/projects/malibu-preview.png",
 			"alt": "image-malibu-hermandad-del-coco"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/malibu.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/malibu.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/malibu.com/screenshots/image03.png",
@@ -42,7 +42,7 @@
 			"src": "images/projects/vueling-preview.png",
 			"alt": "image-vueling-memory-game"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/vueling-memory.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/vueling-memory.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/vueling-memory.com/screenshots/image03.png",
@@ -61,7 +61,7 @@
 			"src": "images/projects/roca-preview.png",
 			"alt": "image-roca-20-suites"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/roca-20-suites.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/roca-20-suites.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/roca-20-suites.com/screenshots/image03.png",
@@ -77,7 +77,7 @@
 			"src": "images/projects/jocdelamobilitat-preview.png",
 			"alt": "image-joc-de-la-mobilitat"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/jocdelamobilitat.cat/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/jocdelamobilitat.cat/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/jocdelamobilitat.cat/screenshots/image03.png",
@@ -99,7 +99,7 @@
 			"src": "images/projects/reigcapital-preview.png",
 			"alt": "image-reigcapital"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/reigcapital.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/reigcapital.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/reigcapital.com/screenshots/image03.png",
@@ -118,7 +118,7 @@
 			"src": "images/projects/dalmau-preview.png",
 			"alt": "image-dalmau"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/dalmau.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/dalmau.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/dalmau.com/screenshots/image03.png",
@@ -135,7 +135,7 @@
 			"src": "images/projects/custo-xmas-preview.png",
 			"alt": "image-custo-xmas-card"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/custo-xmas.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/custo-xmas.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/custo-xmas.com/screenshots/image03.png",
@@ -152,7 +152,7 @@
 			"src": "images/projects/custo-preview.png",
 			"alt": "image-custo-tu-nos-inspiras"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/custo-tu-nos-inspiras.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/custo-tu-nos-inspiras.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/custo-tu-nos-inspiras.com/screenshots/image03.png",
@@ -174,7 +174,7 @@
 			"src": "images/projects/25retos-preview.png",
 			"alt": "image-chocapics-25-retos"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/25retos.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/25retos.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/25retos.com/screenshots/image03.png",
@@ -208,7 +208,7 @@
 			"src": "images/projects/california-nuts.png",
 			"alt": "image-california-nuts"
 		},
-		"meta": [
+		"images": [
 			"http://www.enjoy-mondays.com/assets/projects/nueces-california.com/screenshots/image01.png",
 			"http://www.enjoy-mondays.com/assets/projects/nueces-california.com/screenshots/image02.png",
 			"http://www.enjoy-mondays.com/assets/projects/nueces-california.com/screenshots/image03.png",

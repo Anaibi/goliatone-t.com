@@ -1,18 +1,22 @@
 (function() { 
 	
 	/* parameters: ************************************/
+	
 	/* number of posts to display in index.html page */
 	var numIndexPosts = 6;
 	
 	/* pagination variables */
 	var paginate = true;		/* true paginate, false don't paginate */
-	var numArchivePosts = 5;	/* number of posts for each page */	
-	var page;
-	var postsIn = false; 		/* posts loaded on archive page */	
+	var numArchivePosts = 5;	/* number of posts for each page */		
+	
+	/* post tips variables */
 	var tooltipLength = 250; 	/* potst tooltip aproximate lenght -will adjust to actual html tags */			 	
 	
+	/* portfolio project show variables */
+	var slideTime = 1000; /* time between project images in slide */
 	
 	/* helper and plugin functions: ************************************/
+	
 	// A helper function to define a property used to render the navigation. Returns
 	// true if a state with the specified name is somewhere along the current route.
 	function stateFlag(name) { 
@@ -27,10 +31,12 @@
 	};
 	
 	
-	// format the date passed by post data
+	// format the date passed by post data from posts.json for use in url
+	// received string type "March 1st 2012"
+	// returned object date.year = 2012, date.month = 03, date.day = 01 
 	function getDate(string) { 
 	  	var array = string.split(" "); 
-	  	array [1] = parseInt(array[1]); 
+	  	array[1] = parseInt(array[1]); 
 	  	string = array.join(" ");
 	  	var date = new Date(string);
 	  	var result = new Object;
@@ -52,20 +58,6 @@
 			$('pre').addClass('prettyprint');
 			prettyPrint();
 			$("pre .prettyprint").wrapInner("<span></span>");
-	
-			$("pre").hover(function() {
-				var contentwidth = $(this).contents().width();
-				var blockwidth = $(this).width();
-				if(contentwidth > blockwidth) {
-					$(this).animate({
-						width : "830px"
-					}, 250);
-				}
-			}, function() {
-				$(this).animate({
-					width : "720px"
-				}, 250);
-			});
 		}, 30);					
 	};	
 	
@@ -86,46 +78,58 @@
 		//add preventive closing tags and ...
 		resume = resume + '... <\/code><\/pre><\/p>';
 		return resume;
-	}	
+	};	
 	
 	// create tip and display
-	function createTip(element) {
+	function createTip(element) { 
 		var $this = $(element);
 	 	var $postTip = $this.parent().parent().next(); 
-	  	var canvas = $postTip.find('canvas')[0]; 
+	  	var canvas = $postTip.find('canvas')[0]; 		
 		var $postTipBox = $this.parent().parent().next().find('.postTip-box');
-	  	//add canvas element to postTip box
-	  	var context = canvas.getContext('2d');	  					
-	  	//draw triangle pointer
-	 	context.beginPath();
-	  	context.moveTo(0,3);
-	  	context.lineTo(6,0);
-	  	context.lineTo(6,6);
-	  	context.fillStyle = "rgba(0, 0, 0, .85)"; /* can be changed to catch color of tooltip box */
-	  	context.fill();
-	  	//position pointer relative to height of tip-box					
-		$postTipBox.css('top', $postTip.height() / 2 - 3);
+	  	if (canvas.getContext) { 
+	  		//add canvas element to postTip box
+		  	var context = canvas.getContext('2d'); 					
+		  	//draw triangle pointer to post tip box
+		 	context.beginPath();
+		  	context.moveTo(0,canvas.height / 2);
+		  	context.lineTo(canvas.width,0);
+		  	context.lineTo(canvas.width,canvas.height);
+		  	context.fillStyle = $postTip.css('background-color'); 
+		  	context.fill();
+		  	//position pointer relative to height of tip-box					
+			$postTipBox.css('top', $postTip.height() / 2 - 3);
+	  	}
+	  	
 		//get tip position
 	 	var offset = $this.offset();
 	 	var top = offset.top - ($postTip.height() / 2) + ($this.height() / 2);
 	  	var left = offset.left + $this.width() + 20; 
-	 	//show tip
-	 	$postTip.css({'top': top, 'left': left}).fadeIn('slow').addClass('visible');
-	}
+	  	// show tip, slide up if first show, otherwise fade in
+	  	if (parseFloat($postTip.css('top')) !== top) {
+	  		//position tip
+	  		$postTip.css({'top': offset.top, 'left': left});
+	 		//show tip
+	 		$postTip.animate({'top': top, 'left': left}).addClass('visible');
+	  	} else {
+	  		//show tip
+	  		$postTip.fadeIn('slow').addClass('visible');
+	  	}
+	  	
+	};
 	
 	//add tips
 	function callTips() {
 		$('.postTip-link').hover( 
-			function() { 
+			function() { //show on hover in
 				createTip(this);
 		  	},
-			function() {
+			function() { //hide on hover out
 		  		$(this).parent().parent().next().removeClass('visible').fadeOut('fast');
 			}
 		);	
-	}
+	};
 	
-	// load projects in portfolio includes navigation
+	// load projects in portfolio, includes navigation
 	function loadProject(project) { 
 		var $project = $("#project-wrap");
 		var $portfolio = $('#portfolio-wrap');
@@ -139,12 +143,12 @@
 		var offset = window.pageYOffset; 
 		showLoader();
 		$('html').animate({'scrollTop' : 0}, 400, function(){ 
-			$project.slideUp(500, function(){ 
-				//in the callback of the slideUp()
+			$project.slideUp(500, function(){ //in the callback of the slideUp()
 				hideLoader();
-				//get all images in the project.
-				images = project.get('meta');
-	    		index = 0;				
+				//get all images in the project ember object
+				images = project.get('images');
+	    		index = 0;	
+	    		//add first imaget to project-wrap div			
 				$project.append('<div class="project-nav"><span class="circle close"><a href="#close">Close</a></span><span class="circle next"><a href="#next">Next</a></span><span class="circle prev"><a href="#prev">Prev</a></span></div>');
 				$project.append('<img src="'+images[0]+'" alt="" id="preview" class="fp_preview"/>');
 				$header.fadeOut(200);
@@ -176,20 +180,22 @@
 			$('.project-nav').animate({'right':'-181px'},200);
 		};
 		
-		function nextImage(){ 
+		//project navigation
+		$next.live('click',function() {
+			// if last image, return to first
 			if (++index > images.length - 1) index = 0;
 			showLoader();
 			var url = images[index]; 
 			$('<img class="fp_preview"/>').load(function(){ 
 				var $newimg         = $(this);  
-				var $currImage      = $('#project-wrap').children('img:first'); 
+				var $currImage      = $project.children('img:first'); 
 				hideLoader(); 
 				$newimg.insertBefore($currImage);
-				$currImage.fadeOut(2000,function(){$(this).remove();});
+				$currImage.fadeOut(slideTime,function(){$(this).remove();});
 			}).attr('src',url);
-		};
+		});
 				
-		function prevImage(){
+		$prev.live('click',function(){
 			if (--index < 0) index = images.length - 1;
 			--index < 0 ? images.length : index;					
 			showLoader();
@@ -200,9 +206,9 @@
 				$newimg.data('origWidth', $newimg.width()).data('origHeight', $newimg.height());				
 				hideLoader();
 				$newimg.insertBefore($currImage);
-				$currImage.fadeOut(2000,function(){$(this).remove();});
+				$currImage.fadeOut(slideTime,function(){$(this).remove();});
 			}).attr('src',url);
-		};		
+		});		
 		
 		$close.live('click',function(){
 			hideProject();
@@ -218,14 +224,25 @@
 				});
 			});
 			return false;
-		});
-				
-		$next.live('click',function(){nextImage()});
-		$prev.live('click',function(){prevImage()})
-						
+		});						
 	};
 	
-	// Create the application
+	//back to top button 
+	function topButton() {
+		var $topcontrol = $('#topcontrol'); 
+	    $(window).scroll(function() { 
+	   		if ($(window).scrollTop() === 0) { 
+	    		$topcontrol.fadeOut('slow');
+	    	} else { 
+	    		$topcontrol.fadeIn('slow');	    		
+	  		}	  		
+	   	});	 
+	   	$topcontrol.click(function() { 
+			$('html, body').animate({scrollTop: 0}, 800);
+		});   
+	};
+	
+	// Create the ember application
 	window.App = Ember.Application.create({ 
 		
 		init: function() { 
@@ -238,6 +255,7 @@
 	  		
 	  		init: function() { this._super() },
 			
+			//main navigation variables
 		    isHome: stateFlag('home'),
 		    isPortfolio: stateFlag('portfolio'),
 		    isAbout: stateFlag('about'),
@@ -245,29 +263,17 @@
 		    isArchive: stateFlag('archive')		   
 		}),
 		
+		// Main view. 
 	  	ApplicationView: Ember.View.extend({
 	  		init: function() { this._super() },
 	    	templateName: 'application', 
-	    	classNames: 'scroll-block',
 	    	didInsertElement: function() {  
 	    		//manage scroll to top button  		
-	    		var $topcontrol = $('#topcontrol');
-	    		var $top = $('.scroll-block').offset().top - 15;
-	    		$(window).scroll(function() { 
-	    			if (($top  - $(window).scrollTop()) === 0) { 
-	    				$topcontrol.fadeOut('slow');
-	    			} else { 
-	    				$topcontrol.fadeIn('slow').click(function() {
-	    					$('html, body').animate({scrollTop: 0}, 800);
-	    					return false;
-	    				})
-	    			}
-	    		});	    		
+	    		topButton();	    				
 	    	}		
-	  	}),
+	  	}),		
 		
-		/* CONTROLLERS AND VIEWS ******************************************************/ 
-		
+		/* CONTROLLERS AND VIEWS ******************************************************/ 		
 		//HOME
 	  	HomeController: Ember.ArrayController.extend({
 	  		init: function() { this._super() }
@@ -294,18 +300,17 @@
 	  			var url = "ember/data/portfolio.json";
 	  			$.getJSON(url,function(data){ 			
 		  			var content = [];
-	  				 $(data).each(function(index,project){
-	  				 	//each value is a project				     	
+	  				 $(data).each(function(index,project){				     	
 				     	var item = App.Project.create({
 				     		id: project.id,
 				     		title: project.title,
 				     		description: project.description,
 							image: project.image,	
-							meta: project.meta	     		
+							images: project.images	     		
 				     	});
-				     	content.pushObject(item);
-				     	self.set('content', content);
+				     	content.pushObject(item);				   		
 	  				}); 
+	  				self.set('content', content);
 	  			});
 	  		} 	  			  		
 	  	}),
@@ -357,10 +362,9 @@
 				
 				isThis = function(v1, v2) {
 					return (v1 == v2)
-				}			
-	  		},
-	  		
-	  	}),
+				};			
+	  		},	  		
+		}),
 	  	ResumeView: Ember.View.extend({
 	  		init: function() { this._super() },
 	    	templateName: 'resume'
@@ -655,7 +659,7 @@
 		title: null,
 		description: null,
 		title: null,
-		meta: null		
+		images: null		
 	});	
 
 })();
