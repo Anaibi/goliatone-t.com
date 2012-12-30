@@ -1,10 +1,8 @@
 [
 	{
 		"id": 0,
-		"isFirst": true,
 		"title": "Project: Open Luxury Days",
 		"date": "March 1st 2012",
-		"summary": "a summary",
 		"html": "<p>After a short but intense development cycle, here it is: <a href=\"http://www.openluxurydays.com/\">www.openluxurydays.com<\/a><\/p><p>For this project I used Kohana libraries I&rsquo;ve released as open source on <a href=\"https://github.com/goliatone\">github<\/a>. Every project is a good chance to keep them sharp and find/squish bugs.<\/p><p>More soon&hellip;<\/p>",			
 		"img": {
 				"src": "images/posts/openluxurydays-preview.png",
@@ -15,14 +13,12 @@
 		"id": 1,
 		"title": "CSS: Gradient borders",
 		"date": "February 8th 2012",
-		"summary": "a summary",
 		"html": "<p>Just a quick snippet to make linear gradient borders.<\/p><pre><code>.gradient-borders { &#10;&#09;border-top: 1px solid #000;&#10;&#10;&#09;background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#000), to(transparent));&#10;&#09;background-image: &#10;&#09;&#09;-webkit-linear-gradient(#000, transparent),&#10;&#09;&#09;-webkit-linear-gradient(#000, transparent);&#10;&#09;background-image:&#10;&#09;&#09;-moz-linear-gradient(#000, transparent),&#10;&#09;&#09;-moz-linear-gradient(#000, transparent)&#10;&#09;;&#10;&#09;background-image:&#10;&#09;&#09;-o-linear-gradient(#000, transparent),&#10;&#09;&#09;-o-linear-gradient(#000, transparent)&#10;&#09;;&#10;&#09;background-image: &#10;&#09;&#09;linear-gradient(#000, transparent),&#10;&#09;&#09;linear-gradient(#000, transparent)&#10;&#09;;&#10;&#09;-moz-background-size:1px 100%;&#10;&#09;background-size:1px 100%;&#10;&#09;background-position:0 0, 100% 0;&#10;&#09;background-repeat:no-repeat;&#10;}&#10;<\/code><\/pre>"
 	},
 	{
 		"id": 2,
 		"title":"Kohana: php CLI",
 		"date": "December 3rd 2011",
-		"summary": "a summary",
 		"html": "<p>In windows, you need to set up your environment variables to execute php conformable from your command line.You can follow the instructions provided by the PHP <a href=\"http://php.net/manual/en/install.windows.commandline.php\">manual<\/a>, which is pretty clear. One thing to remember is that your PATH variable needs to point to where the <code>php.exe<\/code> file is found and not to the <code>php.exe<\/code> itself.<\/p><p>If you are using Aptana, now you can execute your commands from the provided bash shell straight on your ide.<\/p><p>So, in a clean kohana install you can try to execute from your application&rsquo;s root directory:<code>php index.php --uri=welcome<\/code><\/p><p>If you get an <code>ErrorException<\/code> that says <code>Undefined index: SERVER_NAME ~ SYSPATH&#92;classes&#92;kohana&#92;url.php<\/code> that is because the class relies on <code>$_SERVER['SERVER_NAME']<\/code> which is not set in CLI mode. The fix is to initialize kohana with the full base_url:<\/p><pre><code>Kohana::init(array&#10;&#09;'base_url'   =&gt; 'http://localhost/kohana/'&#10;...<\/code><\/pre><p>If you now execute <code>php index.php --uri=welcome<\/code> it should output the controllers response body: <code>'hello, world!'<\/code></p><p>There at two helpful modules to deal with <a href=\"http://kohanaframework.org/3.0/guide/api/CLI\">CLI in Kohana<\/a>:<\/p><ul><li> <a href=\"https://github.com/OpenBuildings/kohana-cli\">kohana-cli</a> help post can be found <a href=\"http://ivank.github.com/blog/2011/11/command-line-interfaces-rule/\">here<\/a><\/li><li> <a href=\"https://github.com/sebicas/kohana-cli-reloaded\">kohana-cli-reloaded<\/a><\/li><\/ul><p>If you check the Kohana Request class, you can see that it handles CLI and that it takes the following options:<\/p><ul><li> uri<\/li><li> method<\/li><li> get<\/li><li> post<\/li><li> referrer<\/li><\/ul>"
 	
 	},
@@ -30,7 +26,6 @@
 		"id": 3,
 		"title": "AS3: Keep your UI's DRY",
 		"date": "November 23rd 2011",
-		"summary": "a summary",
 		"html": "<p>Consider the following code snippet. Real world code, a form with multiple icons:<\/p><pre><code>//contactIconBtn&#10;var contactIconBtn:Sprite = _skin.getAssetAs(\"contactIconBtn\", Sprite, null );&#10;_contactIconBtn = new OSIconButton(contactIconBtn);&#10;_contactIconBtn.addEventListener(InteractiveContainer.ON_CLICK, _hanldeButtons );&#10;&#10;//whatIsIconBtn =&gt; window_info:&#10;var whatIsIconBtn:Sprite = _skin.getAssetAs(\"whatIsIconBtn\", Sprite, null );&#10;_whatIsIconBtn = new OSIconButton(whatIsIconBtn);&#10;_whatIsIconBtn.addEventListener(InteractiveContainer.ON_CLICK, _hanldeButtons );&#10;&#10;//twitterIconBtn&#10;var twitterIconBtn:Sprite = _skin.getAssetAs(\"twitterIconBtn\", Sprite, null );&#10;_twitterIconBtn = new OSIconButton(twitterIconBtn);&#10;_twitterIconBtn.addEventListener(InteractiveContainer.ON_CLICK, _hanldeButtons );&#10;&#10;//facebookIconBtn&#10;var facebookIconBtn:Sprite = _skin.getAssetAs(\"facebookIconBtn\", Sprite, null );&#10;_facebookIconBtn = new OSIconButton(facebookIconBtn);&#10;_facebookIconBtn.addEventListener(InteractiveContainer.ON_CLICK, _hanldeButtons );<\/code><\/pre><p>Ugly, how to keep it <strong>DRY<\/strong>? Let&rsquo;s first look at this other snippet, which is the same but refactored.<\/p><pre><code>var icons:Array = _skin.locateChildrenBySuffix(/(^.+)(IconBtn)/i, Sprite, -1);&#10;var btn:OSIconButton;&#10;for each( var skin:Sprite in icons ) {&#10;&#09;btn = new OSIconButton(skin);&#10;&#09;btn.addEventListener(InteractiveContainer.ON_CLICK, _hanldeButtons );&#10;&#09;this[\"_\" + skin.name] = btn;&#10;}<\/code><\/pre><p>Much nicer, ain&rsquo;t it!<\/p><p>Now, for this to work we need to have in place some conventions. This is how I handle the buttons. Notice how there is a single method handling all buttons and discriminating by the button&rsquo;s name:<\/p><pre><code>private function _hanldeButtons(e:Event):void {&#10;&#09;switch(e.target.name ) {&#10;&#09;&#09;case _contactIconBtn.name:&#10;&#09;&#09;&#09;_windowManager.openWindow( WindowContact.ID, false );&#10;&#09;&#09;break;&#10;&#09;&#09;case _whatIsIconBtn.name:&#10;&#09;&#09;&#09;_windowManager.openWindow( WindowInfo.ID, false );&#10;&#09;&#09;break;&#10;&#09;&#09;case _facebookIconBtn.name:&#10;&#09;&#09;&#09;var link:LinkVO = ModelList.instance.siteModel.getLink(\"facebookUrl\");&#10;&#09;&#09;&#09;link.execute( );&#10;&#09;&#09;break;&#10;&#09;&#09;case _twitterIconBtn.name:&#10;&#09;&#09;&#09;link = ModelList.instance.siteModel.getLink(\"twitterUrl\");&#10;&#09;&#09;&#09;link.execute( );&#10;&#09;&#09;break;&#10;&#09;}&#10;}<\/code><\/pre><p>The important method of <code>_skin:<\/code><\/p><pre><code>/**&#10; * @inheritDoc&#10; */&#10;public function locateChildrenBySuffix(suffix:*, type:Class , index:int = 0 ):* {&#10;&#09;var collection:Array = ContainerUtils.collect( _source, suffix );&#10;&#09;if ( collection.length == 1 ) return collection[0] as type;&#10;&#09;else if ( collection.length &gt; 1 &amp;&amp; index == -1 ) return collection;&#10;&#09;else return collection[index] as type;&#10;}<\/code><\/pre><p>The call to <code>ContainerUtils.collect( _source, suffix );<\/code> handles the actual gathering of items:<\/p><pre><code>/**&#10; *&#10; * @param   container&#10; * @param   mask&#10; * @return&#10; */&#10;public static function collect( container:DisplayObjectContainer, mask:* ):Array {&#10;&#10;&#09;var reg:RegExp = mask is RegExp ? mask : new RegExp( mask );&#10;&#10;&#09;var n:int = container.numChildren;&#10;&#09;var c:DisplayObject;&#10;&#09;var id:String;&#10;&#09;var childs:Array = [];&#10;&#09;while (n-- &gt; 0 ) {&#10;&#09;&#09;c = container.getChildAt(n);&#10;&#09;&#09;id = c.name;&#10;&#09;&#09;if ( id.match( reg ) ) childs.push( c );&#10;&#09;}&#10;&#10;&#09;return childs;&#10;}<\/code><\/pre>"
 
 	},
@@ -38,7 +33,6 @@
 		"id": 4,
 		"title": "Apache not booting on windows",
 		"date": "November 17th 2011",
-		"summary": "a summary",
 		"html": "<p>Quick note. If apache is missbehaving on windows, and does not boot make sure that skype is not configured to run on port 80.<\/p>"
 	},
 	{
@@ -52,35 +46,30 @@
 		"id": 6,
 		"title": "Toto: URL Rewriting",
 		"date": "November 14th 2011", 
-		"summary": "a summary",
 		"html": "<p>There is one entry on toto&rsquo;s github wiki which <a href=\"https://github.com/cloudhead/toto/wiki/URL-Rewriting\">explains</a> how to set up a redirect:<\/p><pre><code>gem 'rack-rewrite', '~&gt; 0.2.1'&#10;require 'rack-rewrite'&#10;if ENV['RACK_ENV'] == 'production'&#10;&#32;&#32;use Rack::Rewrite do&#10;&#32;&#32;&#32;&#32;r301 %r{.*}, 'http://yoursite.com$&amp;', :if =&gt; Proc.new  do |rack_env|&#10;&#32;&#32;&#32;&#32;&#32;&#32;rack_env['SERVER_NAME'] != 'yoursite.com'&#10;&#32;&#32;&#32;&#32;end&#10;&#32;&#32;end&#10;end<\/code><\/pre><p>If I include this on my config.ru the app crashes. Lookin at the logs, i can see something like:<\/p><pre><code>report_activate_error: RubyGem version error: rack-rewrite(1.2.1 not ~&gt; 0.2.1) (Gem::LoadError)<\/code><\/pre><p>The solution is quite simple actually. Just update the version in config.ru, like this:<\/p><pre><code>gem 'rack-rewrite', '~&gt; 1.2.1'&#10;require 'rack-rewrite'&#10;if ENV['RACK_ENV'] == 'production'&#10;&#32;&#32;use Rack::Rewrite do&#10;&#32;&#32;&#32;&#32;r301 %r{.*}, 'http://www.yoursite.com$&amp;', :if =&gt; Proc.new {|rack_env|&#10;&#32;&#32;&#32;&#32;&#32;&#32;rack_env['SERVER_NAME'] != 'www.yoursite.com'&#10;&#32;&#32;&#32;&#32;}&#10;&#32;&#32;end&#10;end<\/code><\/pre><p>Rewrite up and running.One comment, I like the rewrites that go to www, so I modified the original script to do so.<\/p><p><strong>[Edit 15/11/2011]<\/strong>The previous script was giving some issues locally. Since I don&rsquo;t need to rewrite in my local server, just swapped one line to check the environment before requiring <code>rack-rewrite<\/code>. Makes sense.<\/p><pre><code># Redirect non-www to www&#10;if ENV['RACK_ENV'] == 'production' #Moved env. check here.&#10;gem 'rack-rewrite', '~&gt; 1.2.1'&#10;require 'rack-rewrite'&#10;&#32;&#32;use Rack::Rewrite do&#10;&#32;&#32;&#32;&#32;r301 %r{.*}, 'http://www.goliatone.com$&amp;', :if =&gt; Proc.new {|rack_env|&#10;&#32;&#32;&#32;&#32;&#32;&#32;rack_env['SERVER_NAME'] != 'www.goliatone.com'&#10;&#32;&#32;&#32;&#32;}&#10;&#32;&#32;end&#10;end<\/code><\/pre>"
 	},
 	{
 		"id": 7,
 		"title": "CSS: Decimal values in Chrome",
 		"date": "November 3rd 2011",
-		"summary": "a summary",
 		"html": "<p>It seems like Chrome does not render decimals for pixel values. The following works in FF and IE but not in Chrome:<\/p><pre><code> letter-spacing: -0.5px;<\/code><\/pre><p>However, the following does work as expected:<\/p><pre><code> letter-spacing: -1px;<\/code><\/pre><p>Also, it seems like it wont go any lower than <code>0.06em</code>.<\/p>"
 	},
 	{
 		"id": 8,
 		"title":"Installing Toto in Heroku",
 		"date": "October 28th 2011",
-		"summary": "a summary",
 		"html": "<p>Deploying toto in Heroku has been a breeze. I decided to go with toto for it&rsquo;s simplicity. In terms of code is really manageable, I think the main class might have around 350 lines of code- it is build on top of Rack with takes does much of the work.All in all makes it a really nice blog engine and stays out of the way most of the time.<\/p>"
 	},
 	{
 		"id": 9,
 		"title":"Hello Toto",
 		"date": "October 27th 2011",
-		"summary": "a summary",
 		"html": "<p>So, everybody wants to be cool. Right? Nowadays cool kids either grow a french mustache, wear thick framed glasses, or code in Ruby. I decided to go with option number 3 and learn Ruby.</p><p>I had exposure to the language, mainly through <a href=\"http://projectsprouts.org/\">Project Sprouts<\/a> and <a href=\"http://www.manning.com/armstrong/\">Flexible Rails</a> wich I read back in 2008. But I wanted to really dig in and since the best way to learn is to practice, I decided I would start a small project using Ruby.<\/p><p>After a small search, I decided to give a try to the following combo:<\/p><pre><code>Rails + Toto + Heroku + Git<\/code><\/pre><p>I have to admit that I am loving it.<\/p>"
 	},
 	{
 		"id": 10,
 		"title":"Kohana PHP Error",
 		"date": "September 24th 2011",
-		"summary": "a summary",
 		"html": "<p>Installing a Kohana application is pretty straight forward. There is a php install script that verifies the environment to make sure all goes smoothly once up and running.<\/p><p>You have to make sure the <code>application/cache<\/code> and <code>application/logs<\/code> directories are writable by the server, and this one thing goes unnoticed by the script. So you might run your application and run into this error:<\/p><p><code>Kohana Error: The log directory is not writable<\/code><\/p><p>If you are running Apache in Ubuntu, you would have to:</p><pre><code>sudo chown www-data:www-data application/{cache,logs}chmod 0770 application/{cache,logs}<\/code><\/pre><p>If you make logs owned by www-data, but you had folders inside that are not, it will fail and not complain anywhere. You would get a PHP error such as:<\/p><p><code>PHP Fatal error:  Exception thrown without a stack frame in Unknown on line 0.<\/code><\/p><p>The mistake with the previous command was that it assumed the folders were empty. We can add the <code>-R</code> parameter and it should be all good in all cases.<\/p>"
 	
 	},
@@ -95,7 +84,6 @@
 		"id": 12,
 		"title":"Flex AS3 AMFPHP encoding issues",
 		"date": "August 10th 2011",
-		"summary": "a summary",
 		"html": "<p>I&rsquo;m working on a project that uses AMFPHP and that has two clients; a Flex AIR back-end client, and a Flash front-end client.</p><p>Im experiencing issues with class mapping from AMFPHP to AS3 on the Flex client only, getting the following error:<\/p><pre><code>TypeError: Error #1034: Type Coercion failed: cannot convert []@7dd1ba1 to xxx<\/code><\/pre><p>The flash client works as expected and both ends use the same VO classes. Everything should work as expected since PHP and AS3 VO&rsquo;s are mapped, AS3 VO&rsquo;s are registered.<\/p><p>Digging around, I narrowed the issue down to this:<\/p><ul><li>If the service class accessing AMFPHP uses flex&rsquo;s <code>RemoteObject</code> there are no conversion issues.<\/li><li>However, a custom class using a <code>NetConnection</code> will error out.<\/li><\/ul><p>To fix the issue, I had to set the <code>objectEncoding<\/code> of the <code>NetConnection<\/code> to AMF3, and in the AMFPHP side, I had to place <code>$GLOBALS['amfphp']['encoding'] = 'amf3';<\/code> on the service&rsquo;s class constructor to make it work.<\/p>"
 	
 	},
@@ -110,28 +98,24 @@
 		"id": 14,
 		"title":"AS3: StringTemplate class",
 		"date": "August 6th 2011",
-		"summary": "a summary",
 		"html": "\n\t\t\t\t<p>A <em>simple</em> class can many times be a powerful tool to build more complex stuff on top.</p>\n\n<p>By simple a mean that has few or one concern, and takes care of an initially uninteresting task. The StringTemplate might be an example of that.</p>\n\n<p>What it does is quite simple, really. If you feed in a context and later you provide an object, it will resolve the objects attributes value that are present in the template. One example such make this more obvious:</p>\n\n<pre><code>var template:String = \"Hello {username}, welcome to {cityname}!\";\nvar data:Object = {username:\"Goliatone\", cityname:\"New York\" };\nvar resolver:StringTemplate = new StringTemplate();\nresolver.template = template;\ntrace( resolver.execute(data)) //Hello Goliatone, welcome to New York!\n</code></pre>\n\n<p>And the class would look like this:</p>\n\n<pre><code>package  com.skinnygeek.media.text {\n    import com.skinnygeek.utils.ObjectUtils;    \n\n    /**\n     * &lt;code&gt;StringTemplate&lt;/code&gt;.\n     *\n     *  @langversion ActionScript 3.0\n     *  @Flash       Player 9.0.28.0\n     *  @author      Emiliano Burgos\n     *  @url         http://www.enjoy-mondays.com\n     *  @version     1.0\n     */\n    public class StringTemplate {\n\n        /** @private **/\n        private var _template                   :String;\n\n        /** @private **/\n        private var _data                       :Object;            \n\n        /**\n         * &lt;code&gt;StringTemplate&lt;/code&gt;\n         * com.skinnygeek.media.text.StringTemplate\n         */\n        public function StringTemplate() {\n            reset( );\n        }\n\n        public function reset( ):void {\n            _data = { };\n            _template = null;\n        }\n\n        /**\n         *\n         * @param   key\n         * @param   value\n         */\n        public function set( key:String, value:* ):void {\n            _data[key] = value//.toString();\n        }\n\n        /**\n         *\n         * @param   key\n         */\n        public function unset(key:String):void {\n            delete _data[key];\n        }\n\n        /**\n         *\n         * @param   data\n         * @return\n         */\n        public function  execute( data:Object = null ):String {\n            if ( data ) this.data = ObjectUtils.instance.merge( this.data, data );\n            return parseTemplate( _template, this.data );\n        }\n\n        /**\n         *\n         */\n        public function get data():Object { return _data; }\n        /** @private **/\n        public function set data(value:Object):void {\n            _data = value;\n        }\n\n        /**\n         * String template holding the markers to be replaced.\n         */\n        public function get template():String { return _template; }\n        /** @private **/\n        public function set template(value:String):void {\n            _template = value;\n        }\n\n        /**\n        * Simple string replacement.\n        * &lt;pre&gt;\n        *   var table : Object = { name : \"lorem ipsum\", date : \"2010/11/23\" };\n        *   var template: String = \"{name} - {date}\";\n        *\n        *   trace(StringTemplate.parseTemplate(template, table)); // -&gt; lorem ipsum - 2010/11/23\n        * &lt;/pre&gt;\n        *\n        * @param    template String to be parsed\n        * @param    data Object containing Key -&gt; Value pairs.\n        * @return   Formated string\n        *\n        */\n        static public function parseTemplate( template:String, data:Object): String {\n            function replaceFn():String {\n                var prop:String = arguments[1];\n                return (prop in data) ? data[prop] : '';\n            }\n            return template.replace(/{(\\w+)}/g, replaceFn);\n        }\n\n\n    }\n}\n</code></pre>\n\n\t\t\t"	
 	},
 	{
 		"id": 15,
 		"title":"Mxmcl Error",
 		"date": "July 23rd 2011",
-		"summary": "a summary",
 		"html": "\n\t\t\t\t<p>Just formatted my box and while doing a fresh install of FlashDevelop, I kept getting this error:</p>\n\n<pre><code>mxmlc Error Loading: \"D:\\Program Files\\Java\\jre6\\bin\\server\\jvm.dll\"\n</code></pre>\n\n<p>The flex compiler (mxmlc) requires that you have the JRE installed in your system, and in particular must be 32 bit (at present).\nThe error shown means you have a 64 bit JRE instead -or like in my case case- that you have both installed and it is pointing to the 64 bit version. To fix this, simply point the <em>JAVA_HOME</em> environment variable to a 32 bit version.</p>\n\n<p>If you get the following error:</p>\n\n<pre><code>This application failed to start because msvcp71.dll was not found. Re-installing the application may fix this problem\n</code></pre>\n\n<p>You might be missing the dll file or need to replace it. I found a working version <a href=\"http://www.dlldll.com/msvcp71.dll_download.html\">here.</a></p>\n\n\t\t\t"
 	},
 	{
 		"id": 16,
 		"title":"MySQL SSH tunnel with putty",
 		"date": "June 3rd 2011",
-		"summary": "a summary",
 		"html": "\n\t\t\t\t<p>Just a quick note to an <a href=\"http://library.linode.com/databases/mysql/mysql-ssh-tunnel\">article</a> on linode’s library that explains how to make a mysql tunnel on Windows with putty.</p>\n\n<p>Just remember that while you have the tunnel open all calls to localhost will get..well, tunneled, meaning that you will not be able to connect to your local phpmyadmin.</p>\n\n\t\t\t"	
 	},
 	{
 		"id": 17,
 		"title":"Ubuntu SFTP jails setup review",
 		"date": "May 24th 2011",
-		"summary": "a summary",
 		"html": "\n\t\t\t\t<p>Quick note on how to limit user’s access with SFTP Jails on Ubuntu.</p>\n\n<p>Access the ssh config file</p>\n\n<pre><code>nano /etc/ssh/sshd_config \n</code></pre>\n\n<p>Modify so that it contains the line</p>\n\n<pre><code>Subsystem sftp internal-sftp\n</code></pre>\n\n<p>Add the following block to the end of the file:</p>\n\n<pre><code>Match group filetransfer\n ChrootDirectory %h\n X11Forwarding no\n AllowTcpForwarding no\n ForceCommand internal-sftp\n</code></pre>\n\n<p>Restart OpenSSH as follows:</p>\n\n<pre><code>/etc/init.d/ssh restart\n</code></pre>\n\n<h4>Modify user account</h4>\n\n<p>If your goal is to give a client or designer access through SFTP to a domain folder, you can start by creating a group for the users- who will only have SFTP access:</p>\n\n<pre><code>addgroup filetransfer\n</code></pre>\n\n<p>Next, you will have to create a new user account and relate it to the new group. This will create the user named fileuser and set its home directory in srv/www/[domain]/public_html:</p>\n\n<pre><code>sudo useradd -d /srv/www/[domain] [username] \nsudo passwd [username] \nsudo usermod -G filetransfer [username] \nsudo chown [username]:[username] /srv/www/[domain]/public_html\n</code></pre>\n\n\t\t\t"	
 	}
 ]
