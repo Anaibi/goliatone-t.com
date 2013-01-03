@@ -297,6 +297,11 @@
 		});   
 	};
     
+    function updatePageTitle(string) {
+    	if (string) $('title').html(string + ' - Goliatone');
+    	else $('title').html('Goliatone');
+    }
+    
 	// ember application
 	window.App = Ember.Application.create({
 		init: function() { this._super(); },                
@@ -605,6 +610,7 @@
 						//HomeController uses PostsController                                                                               
 						router.get('homeController').connectControllers('posts');
 						router.get('applicationController').connectOutlet('home');
+						updatePageTitle();
 					},
 				}),
 				//portfolio page manager
@@ -612,6 +618,7 @@
 					route: '/portfolio',
 					connectOutlets: function(router) {
 						router.get('applicationController').connectOutlet('portfolio');
+						updatePageTitle('Portfolio');
 					},
 					index: Ember.Route.extend({
 						route: '/'
@@ -623,12 +630,14 @@
 					//this project as an ember object                  
 					var project = $.grep(portfolio, function(e){ return e.id == context.target.id; });
 					loadProject(project[0]);
+					updatePageTitle(project[0].get('title'));
 				}, 
 				//about page manager
 				about: Ember.Route.extend({
 					route: '/about',
 					connectOutlets: function(router) {
 						router.get('applicationController').connectOutlet('about');
+						updatePageTitle('About');
 					}
 				}),
 				//resume page manager
@@ -636,6 +645,7 @@
 					route: '/resume',
 					connectOutlets: function(router) {
 						router.get('applicationController').connectOutlet('resume');
+						updatePageTitle('Resume');
 					}
 				}),
 				//archive page manager
@@ -645,6 +655,7 @@
 						//ArchiveController uses PostsController                                                                               
 						router.get('archiveController').connectControllers('posts');
  						router.get('applicationController').connectOutlet('archive');
+ 						updatePageTitle('Archives');
 					},
 				}),
 				//post page manager
@@ -654,7 +665,8 @@
 						var post = router.get('postsController.fullContent').objectAt(context.post_id);                                  
 						router.get('postController').set('content', post);
 						router.get('applicationController').connectOutlet('post');                              
-						tPrettify();                                  
+						tPrettify(); 
+						updatePageTitle(post.get('title'));                                 
 					},    
 					serialize: function(router, post_id) {     
 						var post = router.get('postsController.fullContent').objectAt(post_id.post_id);   
