@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         
         <!-- IE FIX -->        
         <meta http-equiv="X-UA-Compatible" content="IE=Edge"/>
@@ -16,7 +16,7 @@
         <!-- ember -->                
         <script src="ember/libs/handlebars-1.0.0.beta.6.js"></script>
         <script src="ember/libs/ember-1.0.0-pre.2.min.js"></script>
-    <!--    <script src="http://cloud.github.com/downloads/emberjs/ember.js/ember-latest.js"></script>    -->    
+    	<!--    <script src="http://cloud.github.com/downloads/emberjs/ember.js/ember-latest.js"></script>    -->    
         <script src="ember/libs/ember-data.js"></script>
         <script src="ember/libs/pagination_support.js"></script>
         <script src="ember/app.js"></script>
@@ -27,161 +27,161 @@
         
         <!--google-analytics-->
         <script type="text/javascript">
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-27075690-1']);
-          _gaq.push(['_trackPageview']);
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-27075690-1']);
+			_gaq.push(['_trackPageview']);
         
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();        
-        </script>
-    </head>
-    <body>
+			(function() {
+				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();        
+		</script>
+	</head>
+	<body>
         
-           <script type="text/x-handlebars" data-template-name="application">
-               <div id="main-nav" class="row" role="banner">
-                <div class="three mobile-one columns">
-                    <a {{action "doHome"}}><img src="http://www.gravatar.com/avatar/b28c54608965139b5dea3f4d9fc46189?s=128&amp;d=identicon&amp;r=PG" alt="Goliatone"></a>
-                </div>
-                <nav id="main-menu" class="nine mobile-three columns">
-                    <ul class="nav-bar">
-                        <li {{bindAttr class="isHome:active"}}><a {{action "doHome"}}>Notes</a></li>
-                        <li {{bindAttr class="isPortfolio:active"}}><a {{action "doPortfolio"}}>Portfolio</a></li>
-                        <li {{bindAttr class="isAbout:active"}}><a {{action "doAbout"}}>About</a></li>
-                        <li {{bindAttr class="isResume:active"}}><a {{action "doResume"}}>Resume</a></li>
-                        <li {{bindAttr class="isArchive:active"}}><a {{action "doArchive"}}>Archive</a></li>
-                    </ul>
-                    </nav>
-            </div>                
+	<script type="text/x-handlebars" data-template-name="application">
+		<div id="main-nav" class="row" role="banner">
+			<div class="three mobile-one columns">
+				<a {{action "doHome"}}><img src="http://www.gravatar.com/avatar/b28c54608965139b5dea3f4d9fc46189?s=128&amp;d=identicon&amp;r=PG" alt="Goliatone"></a>
+			</div>
+			<nav id="main-menu" class="nine mobile-three columns">
+				<ul class="nav-bar">
+					<li {{bindAttr class="isHome:active"}}><a {{action "doHome"}}>Notes</a></li>
+					<li {{bindAttr class="isPortfolio:active"}}><a {{action "doPortfolio"}}>Portfolio</a></li>
+					<li {{bindAttr class="isAbout:active"}}><a {{action "doAbout"}}>About</a></li>
+					<li {{bindAttr class="isResume:active"}}><a {{action "doResume"}}>Resume</a></li>
+					<li {{bindAttr class="isArchive:active"}}><a {{action "doArchive"}}>Archive</a></li>
+				</ul>
+			</nav>
+		</div>                
       
-              <div class="container">                                
-                {{outlet}}
-              </div>
-              <footer class="row">
-                <div>
-                    <p class="two columns first">&copy; 2011 Goliatone</p><p class="two columns end">Powered by <a href="http://cloudhead.io/toto">toto</a></p>
-                </div>            
-            </footer>                
-            <div id="topcontrol" title="scroll back to top">
-                <img id="topcontroll-img" src="images/up.png" />            
-            </div>
-        </script>
+		<div id="content" class="container row">                                
+			{{outlet}}
+		</div>
+		
+		<footer class="row">
+			<div>
+				<p class="two columns first">&copy; 2011 Goliatone</p><p class="two columns end">Powered by <a href="http://cloudhead.io/toto">toto</a></p>
+			</div>            
+		</footer>                
+		
+		<div id="topcontrol" title="scroll back to top">
+			<img id="topcontroll-img" src="css/img/up.png" />            
+		</div>
+	</script><!-- end main application template --> 
             
-        <script type="text/x-handlebars" data-template-name="home">
-              <header>
-                <div class="row tagline">
-                    <h1>Notes</h1>
-                    <span>To self and beyond.</span>
-                </div>
-            </header>
-            <section id="index" class="main row posts archives">
-			{{#each post in postsController.firstPosts}}
-				<article class="row">  
-				{{#if post.isFirst}}
-                	 {{template "post-featured"}}        
-				{{else}}
-					{{template "post-headline"}}
-				{{/if}}
+	<script type="text/x-handlebars" data-template-name="home">
+		
+		{{template "page-header"}}
+		
+		<section id="home" class="main row posts archives">
+		{{#each post in postsController.firstPosts}}
+			<article class="row">  
+			{{#if post.isFirst}}
+				{{template "post-featured"}}        
+			{{else}}
+				{{template "post-headline"}}
+			{{/if}}
+			</article>
+		{{/each}}                   				
+			
+			<div class="more">
+				<a {{action "doArchive"}} class="button radius right">+ Archives</a>
+			</div>    
+		</section><!-- end home section -->
+	</script><!-- end home template -->    
+    
+	
+	<script type="text/x-handlebars" data-template-name="portfolio">
+		
+		{{template "page-header"}}
+            
+		<section id="portfolio" class="row main">
+			<div id="project-wrap"></div>
+			
+			<div id="portfolio-wrap">
+			{{#each project in content}}
+				<article class="project mosaic">
+					<div class="preview">
+						<a {{action "doProject" context="this"}} {{bindAttr id="project.id"}} target="_blank" class="mosaic-overlay">
+							<div class="details">
+								<h4>{{project.title}}</h4>
+								<p>{{project.description}}</p>
+							</div>
+						</a>
+						
+						<div class="mosaic-backdrop">    
+							<img {{bindAttr src="project.image.src" alt="project.image.alt"}} />
+						</div>
+					</div>
 				</article>
-			{{/each}}                   				
-				<div class="more">
-					<a {{action "doArchive"}} class="button radius right">+ Archives</a>
-				</div>    
-			</section>
-        </script>    
+			{{/each}}
+			</div>
+		</section><!-- end portfolio section -->
+	</script><!-- end portfolio template -->
     
-        <script type="text/x-handlebars" data-template-name="portfolio">
-            <header>
-                <div class="row tagline">
-                    <h1>Portfolio</h1>
-                    <span>Collection of past works.</span>
-                </div>
-            </header>
-            
-            <section id="portfolio" class="row main">
-                <div id="project-wrap"></div>
-                <div id="portfolio-wrap">
-                    {{#each project in content}}
-                        <article class="project mosaic">
-                            <div class="preview">
-                                <a {{action "doProject" context="this"}} {{bindAttr id="project.id"}} target="_blank" class="mosaic-overlay">
-                                    <div class="details">
-                                        <h4>{{project.title}}</h4>
-                                        <p>{{project.description}}</p>
-                                    </div>
-                                </a>
-                                <div class="mosaic-backdrop">    
-                                    <img {{bindAttr src="project.image.src" alt="project.image.alt"}} />
-                                </div>
-                            </div>
-                        </article>
-                    {{/each}}
-                </div>
-            </section>
-        </script>
-    
-        <script type="text/x-handlebars" data-template-name="about">
-            <div class="row intro">
-                    <p class="about-intro">
-                        I synthesize, design, prototype, de-construct, research, reverse-engineer, produce, debug, refactor, and release.
-                        Breathe. I&#39;m <span class="soft-gray">Goliatone</span> and will make it look pretty too. <span class="green">Hello
-                        there!</span>
-                    </p>
-            </div>
+
+	<script type="text/x-handlebars" data-template-name="about">
+		
+		<div class="row intro">
+			<p class="about-intro">
+				I synthesize, design, prototype, de-construct, research, reverse-engineer, produce, debug, refactor, and release.
+				Breathe. I&#39;m <span class="soft-gray">Goliatone</span> and will make it look pretty too. <span class="green">Hello
+				there!</span>
+			</p>
+		</div>
         
-            <header>
-                <div class="row tagline">
-                    <h1>I love clean, solid code. Crafting for the web and beyond since 2000.</h1>
-                    <span>Here are some more details.</span>
-                </div>
-            </header>
-            <section id="about" class="row main">    
-                <div class="five mobile-four columns">
-                    <h3>A bag full of tricks:</h3>
-                    <p>OOP, MVC, HMVC, IOC <acronym title="as soon as possible">SOLID</acronym> DRY DIE, KISS.</p>
-                    <p>Html CSS and Javascript.</p>
-                    <p>Actionscript and Flex</p>
-                    <p>PHP, MySQL. LAMP</p>
-                </div>
-                <div class="six mobile-four columns">
-                    <div class="box">
-                        <h3>About me:</h3>
-                        <p>I have the drive and desire to constantly learn and improve. I am a highly motivated,
-                        self-taught individual and learn fast.</p>
-                        <p>I appreciate environments that promote continuous learning and cultures that capitalize
-                        interpersonal relationships. I have over ten years of experience.</p>
-                    </div>
-                </div>
-            </section><!-- end main section -->
-        </script>
+        {{template "page-header"}}		
+		
+		<section id="about" class="row main">    
+			<div class="five mobile-four columns">
+				<h3>A bag full of tricks:</h3>
+				<p>OOP, MVC, HMVC, IOC <acronym title="as soon as possible">SOLID</acronym> DRY DIE, KISS.</p>
+				<p>Html CSS and Javascript.</p>
+				<p>Actionscript and Flex</p>
+				<p>PHP, MySQL. LAMP</p>
+			</div>
+			
+			<div class="six mobile-four columns">
+				<div class="box">
+					<h3>About me:</h3>
+					<p>I have the drive and desire to constantly learn and improve. I am a highly motivated,
+						self-taught individual and learn fast.</p>
+					<p>I appreciate environments that promote continuous learning and cultures that capitalize
+						interpersonal relationships. I have over ten years of experience.</p>
+				</div>
+			</div>
+		</section><!-- end about section -->
+	</script><!-- end about template -->
     
-        <script type="text/x-handlebars" data-template-name="resume">
-        <div id="resume" class="main">
-            <header>
-                <div class="row tagline">
-                    <h1>Emiliano Burgos.</h1>
-                    <h2>Cross-functional Web Developer, with an eye for design.<br />Some call me Goliatone.
-                        I work at <a href="http://www.enjoy-mondays.com/">EnjoyMondays</a>.</h2>
-                </div>
-            </header>
+	<script type="text/x-handlebars" data-template-name="resume">
+		<div id="resume" class="main">
+			<header>
+				<div class="row tagline">
+					<h1>Emiliano Burgos.</h1>
+					<h2>Cross-functional Web Developer, with an eye for design.<br />Some call me Goliatone.
+					I work at <a href="http://www.enjoy-mondays.com/">EnjoyMondays</a>.</h2>
+				</div>
+			</header>
             
-            <div id="download-resume">
-                <a href="/pdfs/2011-emiliano-burgos.pdf">Download PDF</a>
-            </div>
+			<div id="download-resume">
+				<a href="/pdfs/2011-emiliano-burgos.pdf">Download PDF</a>
+			</div>
             
-            {{#each resumeBlock in content}}
+			{{#each resumeBlock in content}}
 			<section {{bindAttr id="resumeBlock.id"}} class="row">
 				<h3>{{resumeBlock.title}}</h3>
 				<hr />
 				{{#if resumeBlock.items}}
 					{{#each resumeItem in resumeBlock.items}}                    
+						
 						{{#if resumeItem.id}}	
 				<div class="resumeItem" {{bindAttr id="resumeItem.id"}}>
 						{{else}}
 				<div class="resumeItem">
 						{{/if}}				
+					
 					<header class="title">
 						{{#if resumeItem.title-link}}	
 						<p class="title"><a {{bindAttr href="project.title-link"}} target="_blank">{{resumeItem.title}}</a></p>
@@ -190,13 +190,16 @@
 						<h4>{{resumeItem.title}}</h4>
 							{{/if}}
 						{{/if}}
+						
 						{{#if resumeItem.date}}
-						<p class="date">({{resumeItem.date.start}} - {{resumeItem.date.end}})</p>
+						<p class="date">({{resumeItem.date.start}}{{#if resumeItem.date.end}} - {{resumeItem.date.end}}{{/if}})</p>
 						{{/if}}
 					</header>
+						
 						{{#if resumeItem.description}}
 					<p class="description">{{resumeItem.description}}</p>
 						{{/if}}
+						
 						{{#if resumeItem.services}}
 					<div class="services">
 						<p>Services provided include:</p>
@@ -207,9 +210,11 @@
 						</ul>
 					</div>                                    
 						{{/if}}
+						
 						{{#if resumeItem.technologies}}
 					<p class="technologies">{{resumeItem.technologies}}</p>	
 						{{/if}}
+						
 						{{#if resumeItem.keyFeatures}}					
 					<div class="keyFeatures">
 						<p>Key features:</p>
@@ -223,6 +228,7 @@
 				</div>	
 					{{/each}} 							
 				{{/if}}   
+				
 				{{#if resumeBlock.skills}}
 				<div class="resumeItem">
 					<ul>
@@ -232,6 +238,7 @@
 					</ul>
 				</div>
 				{{/if}}  
+				
 				{{#if resumeBlock.clients}} 
 				<div class="resumeItem">
 					<ul>
@@ -247,100 +254,125 @@
 				</div>
 				{{/if}}
 			</section>                
-            {{/each}}           
-        </div><!-- end resume-->
-        </script>
+			{{/each}}           
+		</div>
+	</script><!-- end resume template --> 
     
-        <script type="text/x-handlebars" data-template-name="archive">
-            <header>
-                <div class="row tagline">
-                    <h1>Archives</h1>
-                    <span>A window to the past.</span>
-                </div>
-            </header>
-            <section id="archive" class="posts main archives">
-                {{#each post in postsController}}
-                <article class="row"> 
-                    {{template "post-headline"}}
-				</article>
-                   {{/each}}
-            </section>
-              {{#if postsController.hasPaginationSupport}}                       
-                <div class="row page_navigation">
-                    <a class="back no_more" {{action "firstPage" target="postsController"}}>First</a>
-                    <a class="back no_more" {{action "previousPage" target="postsController"}}>Prev</a>                    
-                    {{#each page in postsController.totalPagesArray}}                     
-                        <a {{action "getPage" target="postsController"}} {{bindAttr id="page.id"}} class="page_link">{{page.content}}</a>
-                    {{/each}}                    
-                    <a class="forward" {{action "nextPage" target="postsController"}}>Next</a>
-                    <a class="forward" {{action "lastPage" target="postsController"}}>Last</a>
-                </div>    
-            {{/if}}                                
-        </script>
-                
-        <script type="text/x-handlebars" data-template-name="post">
-            <section class="main">
-                   <header>
-                    <div class="row tagline">
-                        <h1>{{title}}</h1>
-                        <span>{{date}}</span>
-                        <div class="post-navigation">
-                            <a href="#"  {{action "prevPost"}} {{bindAttr id="id"}} class="prev post-navigation">Previous</a>
-                            {{#if isFirst}}
-                                <a href="#" {{action "nextPost"}} {{bindAttr id="id"}} class="next post-navigation disabled-link">Next</a>
-                            {{else}}
-                                <a href="#" {{action "nextPost"}} {{bindAttr id="id"}} class="next post-navigation">Next</a>
-                            {{/if}}
-                        </div>
-                    </div>
-                </header>
-                <section class="row post">
-                    {{#if img}}
-                        <div id="article-thumb">
-                            <img {{bindAttr src="img.src" alt="img.alt"}}/>    
-                        </div>
-                    {{/if}}
-                    <div id"article-body">                                                
-                            {{{html}}}                    
-                    </div>
-                </section>    
-                <div class="more row">
-                           <a {{action "doHome"}} class="button radius left">Back to Kansas</a>
-                </div>    
-            </section>
-        </script>
-                 
-        <script type="text/x-handlebars" data-template-name="post-headline">                      
-                <div class="three columns"><p class="date">{{post.date}}</p></div>
-                <div class="eight columns posttitle">
-                    <h3><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="postTip-link">{{post.title}}</a></h3>
-                 </div>
-                 <div class="postTip">
-                     <div class="postTip-box"><canvas height="6" width="6"></canvas></div>
-                     <h4>{{post.title}}</h4>
-                     {{{post.resume}}}
-                 </div>
-        </script>    
-        
-        <script type="text/x-handlebars" data-template-name="post-featured">
-			<div class="header row">
-				<h2><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="post-title">{{post.title}}</a></h2>   
-				<p class="date">{{post.date}}</p>
-			</div>
-			<div class="post">
-			{{#if post.img}}
-				<img {{bindAttr src="post.img.src" alt="img.alt"}} class="preview"/>
-			{{else}}
-				{{{post.resume}}}
-			{{/if}}
+	
+	<script type="text/x-handlebars" data-template-name="archive">
+		
+		{{template "page-header"}}	
+		
+		<section id="archive" class="posts main archives">
+		{{#each post in postsController}}
+			<article class="row"> 
+				{{template "post-headline"}}
+			</article>
+		{{/each}}
+		</section>
+		
+		{{#if postsController.hasPaginationSupport}}                       
+		<div class="row page_navigation">
+			<a class="back no_more" {{action "firstPage" target="postsController"}}>First</a>
+			<a class="back no_more" {{action "previousPage" target="postsController"}}>Prev</a>                    
+			{{#each page in postsController.totalPagesArray}}                     
+			<a {{action "getPage" target="postsController"}} {{bindAttr id="page.id"}} class="page_link">{{page.content}}</a>
+			{{/each}}                    
+			<a class="forward" {{action "nextPage" target="postsController"}}>Next</a>
+			<a class="forward" {{action "lastPage" target="postsController"}}>Last</a>
 			</div>    
-			<div class="more">
-				<a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="button radius right">+ Read more</a>
-			</div> 
-        </script>       
+		{{/if}}                                
+	</script><!-- end archive template --> 
+                
+	<script type="text/x-handlebars" data-template-name="post">
+		<section class="main">
+			<header>
+				<div class="row tagline">
+					<h1>{{title}}</h1>
+					<span>{{date}}</span>
+					
+					<div class="post-navigation">
+						<a href="#"  {{action "prevPost"}} {{bindAttr id="view.prev.id"}} class="prev post-navigation postTip-link">Previous</a>
+						<a href="#" {{action "nextPost"}} {{bindAttr id="view.next.id"}} class="next post-navigation postTip-link">Next</a>
+					</div>
+				</div>
+			</header>
+			
+			<section class="row post">
+			{{#if img}}
+				<div id="article-thumb">
+					<img {{bindAttr src="img.src" alt="img.alt"}}/>    
+				</div>
+			{{/if}}
+			
+				<div id"article-body">                                                
+					{{{html}}}                    
+				</div>
+			</section>    
+			
+			<div class="postTip prev" {{bindAttr id="view.prev.id"}}>
+				<div class="postTip-pointer"><canvas height="6" width="6"></canvas></div>
+				<h4>{{view.prev.title}}</h4>
+				{{{view.prev.shortText}}}
+			</div>
+			
+			<div class="postTip next" {{bindAttr id="view.next.id"}}>
+				<div class="postTip-pointer"><canvas height="6" width="6"></canvas></div>
+				<h4>{{view.next.title}}</h4>
+				{{{view.next.shortText}}}
+			</div>
+			
+			<div class="more row">
+				<a {{action "doHome"}} class="button radius left">Back to Kansas</a>
+			</div>    
+		</section>
+	</script><!-- end post template --> 
+	
+	<script type="text/x-handlebars" data-template-name="page-header">
+		<header>
+			<div class="row tagline">
+				<h1>{{view.title}}</h1>
+				<span>{{view.subtitle}}</span>
+			</div>
+		</header>
+	</script><!-- end page-header template -->
+	
+                 
+	<script type="text/x-handlebars" data-template-name="post-headline">                      
+		<div class="three columns"><p class="date">{{post.date}}</p></div>
+			<div class="eight columns posttitle">
+				<h3><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="postTip-link">{{post.title}}</a></h3>
+			</div>
+			
+			<div class="postTip" {{bindAttr id="post.id"}}>
+				<div class="postTip-pointer"><canvas height="6" width="6"></canvas></div>
+				<h4>{{post.title}}</h4>
+				{{{post.resume}}}
+			</div>
+	</script><!-- end post-headline template -->    
+        
+	<script type="text/x-handlebars" data-template-name="post-featured">
+		<div class="featured row">
+			<h2><a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="post-title">{{post.title}}</a></h2>   
+			<p class="date">{{post.date}}</p>
+		</div>
+		
+		<div class="content">
+		{{#if post.img}}
+			<img {{bindAttr src="post.img.src" alt="img.alt"}} class="preview"/>
+		{{else}}
+			{{{post.resume}}}
+		{{/if}}
+		</div>    
+		
+		<div class="more">
+			<a {{action "doPost" context="post"}} {{bindAttr id="post.id"}} class="button radius right">+ Read more</a>
+		</div> 
+	</script><!-- end post-featured template -->        
             
-        <link type="text/css" rel="stylesheet" href="plugins/google-code-prettify/toto-desert.css" />
-        <script type="text/javascript" src="plugins/google-code-prettify/prettify.js"></script>    
+	<!-- include prettify plugin --> 
+	<link type="text/css" rel="stylesheet" href="plugins/google-code-prettify/toto-desert.css" />
+	<script type="text/javascript" src="plugins/google-code-prettify/prettify.js"></script>    
                     
     </body>
 </html>        

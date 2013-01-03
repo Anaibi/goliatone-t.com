@@ -1,21 +1,21 @@
-/* Artfully masterminded by ZURB  */
-
 /* -------------------------------------------------- 
    Table of Contents
 -----------------------------------------------------
 :: Shared Styles
-:: Page INDEX
+:: Page HOME
+:: Page HOME AND ARCHIVES
 :: Page PORTFOLIO
+:: Page ABOUT
+:: Page RESUME
+:: Page ARCHIVES
+:: Page POST
 */
 
 /* -----------------------------------------
    Shared Styles
 ----------------------------------------- */
 /* DEFAULT */
-/* make new structural elements force a line break */
-section, article, header, footer, nav, aside, hgroup {
- display: block;
-} 
+
 .row {
 	min-width: 720px;
 }
@@ -24,7 +24,6 @@ body {
 	background: #EFEFEF; 
 	line-height: 30px; 
 	color: #000; 
-	padding-top: 15px;
 }
 
 body, p, h1, h2, h3, h4, a, span {
@@ -60,23 +59,10 @@ a:hover {
 	color: #18bded;
 }
 
-.green{
-	color:#9bf239;
-}
-.fucsia{
-	color:#FE3376;
-}
-.soft-gray{
-	color:#b6b6b6;
-}
-.soft-blue{
-	color:#84BCDE;
-}
-
 /* MAIN NAVIGATION BAR */
 div[role="banner"] { 
 	height: 170px;
-/*	border-bottom: 1px dotted #8d8d8d;*/
+	margin-top: 15px !important;
 }
 
 #main-menu {
@@ -174,49 +160,7 @@ footer a:hover {
 	text-decoration: underline;
 }
 
-/* SCROLL TO TOP CONTROLLER */
-#topcontrol {
-	bottom: 12px;
-	cursor: pointer;
-/*	opacity: 0;*/
-	display: none;
-	position: fixed;
-	right: 15px;
-	z-index: 9999;
-}
-#topcontrol-img {
-	height: 48px;
-	width: 48px;
-}
-/* -----------------------------------------
-   Page INDEX
------------------------------------------ */
-
-.post:last-child {
-	margin-bottom: 110px;
-}
-
-.date {
-  	font-style: italic;
-  	line-height: 43px;
-  	font-size: 12px;
-  	margin-bottom: 0;
-}
-
-#articles .date {
-	font-size: 15px;
-}
-
-#articles .content {
-	margin-top: 15px;
-	margin-bottom: 20px;
-}
-
-#articles .content img.preview {
-	border: 2px solid #121212;
-	margin-bottom: 10px;
-}
-
+/* DEFAULT BUTON */
 .button {
 	font-style: italic;
     font-size:13px;
@@ -232,8 +176,29 @@ footer a:hover {
 	color:#111;
 }
 
+/* SCROLL TO TOP CONTROLLER */
+#topcontrol {
+	bottom: 12px;
+	cursor: pointer;
+	display: none;
+	position: fixed;
+	right: 15px;
+	z-index: 9999;
+}
+#topcontrol-img {
+	height: 48px;
+	width: 48px;
+}
 /* -----------------------------------------
-   Page INDEX AND ARCHIVES
+   Page HOME
+----------------------------------------- */
+
+.featured .date {
+	font-size: 15px;
+}
+
+/* -----------------------------------------
+   Page HOME AND ARCHIVES
 ----------------------------------------- */
 
 article.row {
@@ -246,8 +211,14 @@ article.row {
 	padding: 3px;
 }
 
-/* tooltips */
+.date {
+  	font-style: italic;
+  	line-height: 43px;
+  	font-size: 12px;
+  	margin-bottom: 0;
+}
 
+/* tooltips */
 .postTip {
 	width: 280;
 	display: none;
@@ -256,8 +227,9 @@ article.row {
 	font-size: 10.5px;
 	left: -28000px;
 	line-height: 12px;
-	max-width: 280px;
-	min-width: 50px;
+/*	max-width: 280px;
+	min-width: 50px;*/
+	width: 270px;
 	position: absolute;
 	top: -28000px;
 	z-index: 15010;
@@ -287,7 +259,10 @@ article.row {
 	color: #9BF239;
 }
 
-.postTip .postTip-box {
+.postTip span {
+	color: white;
+}
+.postTip .postTip-pointer {
 	background-color: transparent;
 	border: 0 none;
 	height: 6px;
@@ -295,6 +270,7 @@ article.row {
 	margin-top: -3px;
 	width: 6px;
 	position: relative;
+	min-width: 200px;
 }
 
 .postTip .postTip-box canvas {
@@ -325,6 +301,7 @@ article.row {
 	left: 0;
 	top: 900px;
 }
+
 /* -----------------------------------------
    Page PORTFOLIO
 ----------------------------------------- */
@@ -378,20 +355,20 @@ span.circle:hover{
 	background-color:#ff3366;
 }
 span.close{
-	background:#000 url(../images/buttons/close-btn.png) no-repeat center center;
+	background:#000 url('img/buttons/close-btn.png') no-repeat center center;
 }
 span.next{
 	margin-top:53px;
-	background:#000 url(../images/buttons/next-btn.png) no-repeat center center;
+	background:#000 url('img/buttons/next-btn.png') no-repeat center center;
 }
 span.prev{
 	margin-top:150px;
-	background:#000 url(../images/buttons/prev-btn.png) no-repeat center center;
+	background:#000 url('img/buttons/prev-btn.png') no-repeat center center;
 }
 
 .loading {
-	background:#000 url(../images/thumb-loader.gif) no-repeat center center;
-	background:#000 url(../images/project-loader.gif) no-repeat center center;
+	background:#000 url('img/thumb-loader.gif') no-repeat center center;
+	background:#000 url('img/project-loader.gif') no-repeat center center;
 }
 
 .project-nav a {}
@@ -401,7 +378,6 @@ span.prev{
     top:100px;
 	right:20px;
 	right:83px;
-	/*right:-183px;*/
     width: 71px;
     z-index: 5555;
     text-indent:-9999em;
@@ -419,7 +395,7 @@ span.prev{
     -moz-border-radius:50px;
     -webkit-border-radius:50px;
     border-radius:50px;
-	background:#000 url(../images/project-loader.gif) no-repeat center center;
+	background:#000 url('img/project-loader.gif') no-repeat center center;
     z-index:99999;
     opacity:0.7;
     /* to center*/
@@ -475,12 +451,6 @@ p.about-intro {
 	text-decoration: underline;
 }
 
-#resume h1, h2, h3, h4, h5 {
-    margin: 0 0 15px;
-    padding: 0;
-    font-weight: 700;
-}
-
 #resume h1 {
     font-size: 80px;
     letter-spacing: -2.5px;
@@ -488,6 +458,7 @@ p.about-intro {
     margin-bottom: 20px;
     text-shadow: 0 0 2px #999999;
     width:100%;
+    padding: 0;
 }
 
 #resume h2 {
@@ -522,28 +493,35 @@ p.about-intro {
 	margin-top: 10px;
 	margin-bottom: 0;
 }
+#resume p, #resume li  {
+	margin-bottom: 0;
+	line-height: 30px;
+}
+#resume .resumeItem div, #resume .resumeItem ul {
+	margin-top: 20px;
+}
 
 #resume .resumeItem {
-	padding-top: 35px;
+	margin-top: 35px;
 }
 
 #resume p.date {
 	font-style: italic;
     line-height: 23px;
     font-size: 20px;
+    margin-bottom: 20px;
 }
 
-#resume .description {
-	padding-top: 20px;
+#osProjects .title {
+	margin-bottom: 0;
 }
-
 #resume ul, ol {
 	list-style-position: outside;
 	padding-left: 38px;
 }
 
 #resume section {
-	margin-bottom: 33px;
+	margin-bottom: 50px;
 }
 
 #download-resume{
@@ -578,19 +556,23 @@ div#download-resume a:hover
 #resume .technologies {
 	padding: 20px 0;
 }
+
+#resume #featured-projects p {
+	margin-bottom: 0;
+}
 /* -----------------------------------------
    Page ARCHIVES
 ----------------------------------------- */
 #archive {
 	min-height: 500px;
 }
-#pnWrapper.row {
-	margin-bottom: 100px;
-}
 
+#archive article.row:first-of-type {
+	border-top: 1px dotted #3C3C3C;
+}
 /** PAGINATE **/
 .page_navigation {
-	margin-top: 35px;
+	margin-top: 10px !important;
 }
 .page_navigation a {
 	padding: 5px;
@@ -612,7 +594,7 @@ a.active_page {
 }
 
 /* -----------------------------------------
-   Page EXPANDED POSTS
+   Page POST
 ----------------------------------------- */
 
 /*Post navigation*/
@@ -630,28 +612,28 @@ a.active_page {
     width: 20px;
 }
 .post-navigation a.next  {
-	background: url(../images/buttons/next-button-sprite.png) no-repeat scroll 0 0 transparent;
+	background: url('img/buttons/next-button-sprite.png') no-repeat scroll 0 0 transparent;
 	right:-35px;
 	top: -4px;
 } 
 .post-navigation a.next:hover  {
-	background: url(../images/buttons/next-button-sprite.png) no-repeat scroll 0 -60px transparent;
+	background: url('img/buttons/next-button-sprite.png') no-repeat scroll 0 -60px transparent;
 }
 
 .post-navigation a.prev  {
-	background: url(../images/buttons/prev-button-sprite.png) no-repeat scroll 0 0 transparent;
+	background: url('img/buttons/prev-button-sprite.png') no-repeat scroll 0 0 transparent;
 	left: -35px;
     top: -4px;
 } 
 .post-navigation a.prev:hover  {
-	background: url(../images/buttons/prev-button-sprite.png) no-repeat scroll 0 -60px transparent;
+	background: url('img/buttons/prev-button-sprite.png') no-repeat scroll 0 -60px transparent;
 }
 .post-navigation a.disabled-link {
 	display: none;
 }
 /* post */
 .post {
-	padding-bottom: 80px;
+	padding-bottom: 55px;
 	padding-top: 15px;
 }
 .post p {

@@ -10,7 +10,8 @@
 	var numArchivePosts = 5;    /* number of posts for each page */        
     
 	/* post tips variables */
-	var tooltipLength = 250;     /* potst tooltip aproximate lenght -will adjust to resolve unclosed links */                 
+	var tipLengthIndex = 250;     	/* listed posts tip aproximate lenght -will adjust to resolve unclosed links */                 
+    var tipLengthNav = 150;	/* tip length when navigating post to post */
     
 	/* portfolio project show variables */
 	var slideTime = 1000; /* time between project images in slide -can be actually more if getting src lags */
@@ -55,66 +56,122 @@
 	};
         
 	// create summary for tooltip from complete post text
-	function tCut(html) {
-		var resume = html.slice(0, tooltipLength);
+	function tCut(html, length, where) {
+		var resume = html.slice(0, length);
+		//if its for tips on post navigation, leave out <pre><code> part
+		if (where === 'nav') {
+			var code = resume.indexOf('<pre'); 
+			if (code > 0) { 
+				resume = resume.slice(0, code); 
+			}
+		}
 		//check for unclossed links
 		var open = resume.lastIndexOf('<a');
 		if (open !== -1) {  //there is link at the end of the resume
 			var close = resume.lastIndexOf('/a>');
 			if (close < open) {  //either there is no closing tag or it is from another link
-				var part = html.slice(tooltipLength);  //add the closing tag to the resume
+				var part = html.slice(length);  //add the closing tag to the resume
 				close = part.indexOf('/a>');
 				part = part.slice(0, close+3);
 				resume = resume + part;
 			}
 		}
 		//add preventive closing tags and ...
-		resume = resume + '... <\/code><\/pre><\/p>';
+		resume = resume + '<span>...</span> <\/code><\/pre><\/p>';
 		return resume;
-	};    
-    
-	// create tip and display
-	function createTip(element) {
-		var $this = $(element);
-		var $postTip = $this.parent().parent().next();        
-		var $postTipBox = $this.parent().parent().next().find('.postTip-box');
-		var canvas = $postTip.find('canvas')[0]; 
-      
-		if (canvas.getContext) {
-			//add canvas element to postTip box
-			var context = canvas.getContext('2d');                     
-			//draw triangle pointer to post tip box
-			context.beginPath();
-			context.moveTo(0,canvas.height / 2);
-			context.lineTo(canvas.width,0);
-			context.lineTo(canvas.width,canvas.height);
-			context.fillStyle = $postTip.css('background-color');
-			context.fill();
-			//position pointer relative to height of tip-box                    
-			$postTipBox.css('top', $postTip.height() / 2 - 3);
-		}
-          
-		//get tip position
-		var offset = $this.offset();
-		var top = offset.top - ($postTip.height() / 2) + ($this.height() / 2);
-		var left = offset.left + $this.width() + 20;
-		// show tip, slide up if first show, otherwise fade in
-		if (parseFloat($postTip.css('top')) !== top) {
-			$postTip.css({'top': offset.top, 'left': left});
-			$postTip.animate({'top': top, 'left': left}).addClass('visible');
-		} else {
-			$postTip.fadeIn('slow').addClass('visible');
-		}
-	};
-    
+	};  
+	
 	//add tips
-	function callTips() {
-		$('.postTip-link').hover(
-			function() { createTip(this) },
-			function() { $(this).parent().parent().next().removeClass('visible').fadeOut('fast') }
+	function callTips(elements, position, fixed, animation) { 
+		$(elements).hover(
+			function() { 
+				$('.postTip').removeClass('visible').hide('fast');
+				createTip(this, position, fixed, animation);
+			},
+			function() { $('.postTip').removeClass('visible').fadeOut('fast') }
 		);    
-	};
-    
+	};  
+	    
+	// create tip body
+	function createTip(element, position, fixed, animation) { 
+		var $this = $(element); 
+		var $postTip = $('#' + $this[0].id + '.postTip'); 
+		var $postTipPointer = $postTip.children('.postTip-pointer');       
+		var canvas = $postTip.find('canvas')[0]; 
+		var top, left;
+		var offset;
+      				
+		getTipPosition();
+		
+		drawBoxPointer();
+		
+		if (animation) {			
+			if (parseFloat($postTip.css('top')) !== top) {
+				$postTip.css({'top': offset.top, 'left': left}); 
+				$postTip.animate({'top': top, 'left': left}).addClass('visible');
+			} else {  
+				$postTip.css({'top': top, 'left': left});
+				$postTip.fadeIn('fast').addClass('visible'); 
+			} 
+		} else {		
+			$postTip.css({'top': top, 'left': left}); 
+			$postTip.fadeIn('slow').addClass('visible'); 
+		}
+			
+		function drawBoxPointer() { 
+			//reset canvas
+			canvas.width = canvas.width;
+			//draw triangle pointer to post tip box
+			if (canvas.getContext) { 
+				var context = canvas.getContext('2d');                     
+				context.beginPath();
+				if (position === 'right') { 
+					context.moveTo(0,canvas.height / 2);
+					context.lineTo(canvas.width,0);
+					context.lineTo(canvas.width,canvas.height);
+				}
+				if (position === 'left') {				
+					context.moveTo(canvas.width,canvas.height / 2);
+					context.lineTo(0,0);
+					context.lineTo(0,canvas.height);
+				}			
+				context.fillStyle = $postTip.css('background-color');
+				context.fill();
+				
+				//position pointer relative to height of tip-box                    
+				$postTipPointer.css('top', $postTip.height() / 2 - 3);  
+				
+				if (position === "left") $postTipPointer.css('left', $postTip.width()+parseInt($postTip.css('padding-right')));
+				if (position === "right") $postTipPointer.css('left', -15);
+			}
+		};
+		
+		function getTipPosition() {
+			offset = $this.offset(); 
+			top = offset.top - ($postTip.height() / 2) + ($this.height() /2) - 8; 
+			if (position === 'right') left = offset.left + $this.width() + 15; 
+			if (position === 'left') left = offset.left - $postTip.width() - $this.width() - 15;	
+			
+			if (!fixed) { //if renders outside of window move to other side of link
+				if (position === 'left') {					
+					if(left < 0) { 
+						position = 'right';
+						getTipPosition();
+						drawBoxPointer();
+					}
+				}
+				if (position === 'right') {					
+					if(left > $(window).width() - $postTip.width()) { 
+						position = 'left';
+						getTipPosition();
+						drawBoxPointer();
+					}			
+				}
+			}
+			
+    	};
+	};	
+          
 	// call prettyprint plugin
 	function tPrettify() {                    
 		setTimeout(function() {
@@ -263,7 +320,8 @@
 			didInsertElement: function() {  
 				//add scroll back to top button on every page        
 				topButton();                        
-			}        
+			}, 
+			classNames: "row"        
 		}),    
         
 		//HOME
@@ -274,14 +332,17 @@
 			init: function() { this._super() },
 			templateName: 'home',
 			didInsertElement: function() {
-				//add post tips
-				callTips();
+				//add tips to post navigation
+				callTips('.postTip-link', 'right', 'fixed', 'animated');
 				//format <pre> code
 				tPrettify();
 			},
 			isHome: function() {
 				return this.get('parentView').get('isHome');
-			}
+			},
+			title: "Notes",
+			subtitle: "To self and beyond"
+			
 		}),
     
 		//PORTFOLIO
@@ -305,7 +366,9 @@
 		}),
 		PortfolioView: Ember.View.extend({
 			init: function() {  this._super() },
-			templateName: 'portfolio'
+			templateName: 'portfolio',
+			title: "Portfolio",
+			subtitle: "Collection of past works."
 		}),
               
 		//ABOUT
@@ -314,7 +377,9 @@
 		}),
 		AboutView: Ember.View.extend({
 			init: function() { this._super() },
-			templateName: 'about'
+			templateName: 'about',
+			title: "I love clean, solid code. Crafting for the web and beyond since 2000.",
+			subtitle: "Here are some more details."
 		}),  
             
 		//RESUME
@@ -338,7 +403,7 @@
 		}),
 		ResumeView: Ember.View.extend({
 			init: function() { this._super() },
-			templateName: 'resume'
+			templateName: 'resume',
 		}),
 		//ARCHIVE
 		ArchiveController: Ember.ArrayController.extend({
@@ -350,9 +415,13 @@
 			didInsertElement: function() {                    
 				// activate page1 link
 				$('.page_navigation #page1').addClass('active_page');    
-				// add post tips
-				callTips();                                          
-			}                                                   
+				//add tips to post navigation
+				callTips('.postTip-link', 'right', 'fixed', 'animated');
+				//format <pre> code
+				tPrettify();                                         
+			},
+			title: "Archives",
+			subtitle: "A window to the past"                                                   
 		}),
       
 		//POSTS
@@ -477,11 +546,44 @@
                 
 		//POST
 		PostController: Ember.ObjectController.extend({
-			init: function() { this._super(); }
+			init: function() { this._super() }
 		}),
-		PostView: Ember.View.extend({
-			init: function() { this._super() },
-			templateName: 'post',           
+		PostView: Ember.View.extend({ 
+			init: function() { 
+				this._super(); 
+				this.getNextPrev();
+				//add short text for tips
+				this.addShortText(this.get('next'));
+				this.addShortText(this.get('prev'));
+				
+			},
+			templateName: 'post',		
+			//get next and previous posts for tips on navigation hover
+			getNextPrev: function() { 
+				var thisPostId = parseInt(App.router.get('postController').get('id'));
+				var posts = App.router.get('postsController.fullContent');
+				var totalPosts = posts.toArray().length; 
+	
+				var prevId = (thisPostId === totalPosts - 1) ? 0 : thisPostId + 1;
+				var nextId = (thisPostId === 0) ? totalPosts -1 : thisPostId - 1;
+						
+				this.set('next', posts.objectAt(nextId)); 
+				this.set('prev', posts.objectAt(prevId));					
+			},
+						
+			addShortText: function(post) {
+				if (!post.get('shortText')) {
+					var text = tCut(post.get('resume'), tipLengthNav, 'nav');
+					post.set('shortText', text);
+				}
+			},
+			didInsertElement: function() { 
+				//add tips to post navigation
+				callTips('.post-navigation .prev', 'left');
+				callTips('.post-navigation .next', 'right');
+
+			}	
+						          
 		}),
         
 		/* ROUTER ******************************************************/
@@ -569,15 +671,20 @@
 					router.transitionTo('post', {post_id: context.target.id});
 				},
 				//navigate to previous post
-				prevPost: function(router, context) {  
-					var id = parseInt(context.target.id) + 1;
+				prevPost: function(router, context) {  console.log(context);
+					var id = parseInt(context.target.id);
 					var totalPosts = router.get('postsController.fullContent').toArray().length;
+					//if last  post go to first
 					if (id === totalPosts) id = 0;                       
 					router.transitionTo('post', {post_id: id});                                        
 				},
 				//navigate to next post
 				nextPost: function(router, context) {
-					router.transitionTo('post', {post_id: context.target.id - 1})                  
+					var id = parseInt(context.target.id);
+					var totalPosts = router.get('postsController.fullContent').toArray().length;
+					//if first post go to last
+					if (id < 0) id = totalPosts -1; 
+					router.transitionTo('post', {post_id: id})                  
 				}			                               
 			})
 		})      
@@ -592,7 +699,7 @@
         img: DS.attr('string'),
         resume: function() {
             if (this.get('html')) {;
-                var html = tCut(this.get('html'));
+                var html = tCut(this.get('html'), tipLengthIndex);
             } else  var html = '<p> No text in post.<\/p>';             
             return html;
         }.property('html'),
